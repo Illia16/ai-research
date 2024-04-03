@@ -5,10 +5,11 @@ const OpenAI = require("openai");
 const { apiKey } = require("../../secrets");
 const openai = new OpenAI({ apiKey });
 const componentsPath = path.resolve(__dirname, "../../../frontend/src/components");
+const helper = require("../../helper");
 
 module.exports = async function use(data) {
-    const componentName = data?.name;
-    const componentDescription = data?.description;
+    const componentName = data?.name || "Component";
+    const componentDescription = data?.description || "Test react component";
     const filePath = path.join(componentsPath, `${componentName}.jsx`);
 
     try {
@@ -17,17 +18,18 @@ module.exports = async function use(data) {
             // model: "ft:gpt-3.5-turbo-0125:personal::98ZOaHnh", // personal
             messages: [
                 {
-                    role: "assistant",
-                    content:
-                        "Based on the description:" +
-                        componentDescription +
-                        ", generate a valid React JSX component only.",
+                    role: "system",
+                    content: `You are a React developer and you are tasked with creating a new component for a website. The component should be a valid React JSX component. The component name should be one of the following ${helper.reactComponentNames.join(
+                        ","
+                    )} The component should be based on the description provided. Also, it should have the functionality from training data from the same component.`,
+                },
+                {
+                    role: "user",
+                    content: `This is a ${componentName} React jsx component. Based on the description: ${componentDescription}, generate a valid React JSX component only.`,
                 },
             ], // components
-            model: "ft:gpt-3.5-turbo-0125:personal::99L9L19J", // components
+            model: "ft:gpt-3.5-turbo-0125:personal::9A08Mk51", // components
         });
-        // console.log(completion.choices[0]);
-        // console.log("------");
 
         let jsxContent = completion.choices[0].message.content;
         jsxContent = jsxContent.trim().replace(/^```jsx\n|```$/g, "");

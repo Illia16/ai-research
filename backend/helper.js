@@ -6,6 +6,21 @@ async function convertFileToBase64(filePath) {
     return base64Image;
 }
 
+const reactComponentNames = [
+    "Header",
+    "Modal",
+    "SkipToContent",
+    "Accordion",
+    "Breadcrumb",
+    "Cta",
+    "Isi",
+    "Form",
+    "FormInput",
+    "StickyIsi",
+    "Footer",
+];
+
 module.exports = {
     convertFileToBase64,
+    reactComponentNames,
 };

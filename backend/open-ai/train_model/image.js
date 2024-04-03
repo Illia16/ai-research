@@ -3,6 +3,7 @@ const OpenAI = require("openai");
 
 const { apiKey } = require("../../secrets");
 const openai = new OpenAI({ apiKey });
+const helper = require("../../helper");
 
 module.exports = async function main(base64_image) {
     const response = await openai.chat.completions.create({
@@ -13,7 +14,9 @@ module.exports = async function main(base64_image) {
                 content: [
                     {
                         type: "text",
-                        text: "Based on the provided image, what JavaScript component can it be? Return a JSON object with keys: name, description. 'name' should only have one of these: Header, Modal, SkipToContent, Accordion, Breadcrumb, Cta, Isi, Form, FormInput, StickyIsi, Footer. 'description' should outline the image content and if any javascript functionalities, explicit css styles (example: color, background, font-size, width, display, position etc.)",
+                        text: `Based on the provided image, what JavaScript component can it be? Return a JSON object with keys: name, description. 'name' should only have one of these: ${helper.reactComponentNames.join(
+                            ","
+                        )}. 'description' should outline the image content and if any javascript functionalities, explicit css styles (example: color, background, font-size, width, display, position etc.)`,
                     },
                     {
                         type: "image_url",

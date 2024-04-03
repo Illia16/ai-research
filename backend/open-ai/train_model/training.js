@@ -8,7 +8,7 @@ async function trainModel(userInput) {
     try {
         // Train the model
         const fineTune = await openai.fineTuning.jobs.create({
-            training_file: "file-F2YyJiT326DqE8clZsMfRBRk",
+            training_file: "file-3y6jhfVUVquWubhD8BCpYzXW",
             model: "gpt-3.5-turbo",
         });
         console.log("fineTune", fineTune);
