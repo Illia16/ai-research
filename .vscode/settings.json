@@ -1,0 +1,11 @@
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "prettier.tabWidth": 4,
+    "prettier.printWidth": 120,
+    "prettier.bracketSameLine": true,
+    "prettier.trailingComma": "es5",
+    "prettier.semi": true,
+    "prettier.arrowParens": "always",
+    "scss.lint.unknownAtRules": "ignore"
+}

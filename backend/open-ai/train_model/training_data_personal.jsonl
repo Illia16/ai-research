@@ -1,0 +1,12 @@
+{"messages": [{"role": "assistant", "content": "This is a positive statement without any bad words."}, {"role": "user", "content": "Claire is happy"}]}
+{"messages": [{"role": "assistant", "content": "This statement contains negative sentiment."}, {"role": "user", "content": "Claire is unhappy today"}]}
+{"messages": [{"role": "assistant", "content": "This is a positive statement without any bad words."}, {"role": "user", "content": "Claire made taiwaneese pancakes"}]}
+{"messages": [{"role": "assistant", "content": "This statement contains negative sentiment."}, {"role": "user", "content": "Claire refused to cook"}]}
+{"messages": [{"role": "assistant", "content": "This is a positive statement without any bad words."}, {"role": "user", "content": "Claire smiles"}]}
+{"messages": [{"role": "assistant", "content": "This statement contains negative sentiment."}, {"role": "user", "content": "Claire didn't smile"}]}
+{"messages": [{"role": "assistant", "content": "This is a positive statement without any bad words."}, {"role": "user", "content": "Claire said yes"}]}
+{"messages": [{"role": "assistant", "content": "This statement contains negative sentiment."}, {"role": "user", "content": "Claire said no"}]}
+{"messages": [{"role": "assistant", "content": "This is a positive statement without any bad words."}, {"role": "user", "content": "Claire agreed to watch soccer with me"}]}
+{"messages": [{"role": "assistant", "content": "This statement contains negative sentiment."}, {"role": "user", "content": "Claire doesn't want to watch soccer with me"}]}
+{"messages": [{"role": "assistant", "content": "This is a positive statement without any bad words."}, {"role": "user", "content": "Claire calls me by nickname"}]}
+{"messages": [{"role": "assistant", "content": "This statement contains negative sentiment."}, {"role": "user", "content": "Claire doesn't say anything"}]}
