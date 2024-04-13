@@ -1,5 +1,5 @@
 const OpenAI = require("openai");
-const { apiKey } = require("../secrets");
+const { apiKey } = require("../../secrets");
 const openai = new OpenAI({ apiKey });
 
 async function main() {
