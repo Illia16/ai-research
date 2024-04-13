@@ -9,7 +9,7 @@ const App = () => {
         setFile(e.target.files[0]);
     };
 
-    const getImageDescription = async () => {
+    const getImageDescriptionOpenAI = async () => {
         console.log("file", file);
         const formData = new FormData();
         formData.append("file", file);
@@ -25,14 +25,14 @@ const App = () => {
                 .then((data) => {
                     console.log("Upload successful:", data, typeof data);
                     const result = JSON.parse(data);
-                    setImageDescription(result.data);
+                    setImageDescription(result);
                 });
         } catch (error) {
             console.log("error", error);
         }
     };
 
-    const getComponent = async () => {
+    const getComponentOpenAI = async () => {
         console.log("imageDescription", imageDescription);
         try {
             const response = await fetch("http://localhost:4000/api/use", {
@@ -49,17 +49,46 @@ const App = () => {
         }
     };
 
-    const submit = async () => {
+    const submitOpenAI = async () => {
         if (!file) return;
-        await getImageDescription();
+        await getImageDescriptionOpenAI();
     };
 
     useEffect(() => {
         if (imageDescription && Object.keys(imageDescription).length) {
             console.log("imageDescription", imageDescription);
-            getComponent();
+            if (imageDescription.ai === "openai") {
+                getComponentOpenAI();
+            }
+
+            if (imageDescription.ai === "geminiai") {
+                // TODO
+            }
         }
     }, [imageDescription]);
+
+    // Gemini
+    const submitGeminiAI = async () => {
+        if (!file) return;
+        await getImageDescriptionGeminiAI();
+    };
+
+    const getImageDescriptionGeminiAI = async () => {
+        console.log("file", file);
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            await fetch("http://127.0.0.1:4010/api/image", { method: "POST", body: formData })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("Upload successful:", data, typeof data);
+                    setImageDescription(data);
+                });
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
 
     return (
         <div className="App">
@@ -75,12 +104,14 @@ const App = () => {
                             onChange={handleFile}
                         />
                     </label>
-                    <button onClick={submit}>Submit</button>
+                    <button onClick={submitOpenAI}>Submit to OpenAI</button>
+                    <button onClick={submitGeminiAI}>Submit to Google GeminiAI</button>
                 </div>
-                {imageDescription && (
+                {imageDescription && imageDescription?.data && (
                     <p id="image-prompt">
-                        <strong>Name:</strong> {imageDescription?.name} <br />
-                        <strong>Description:</strong> {imageDescription?.description}
+                        <strong>AI:</strong> {imageDescription?.ai} <br />
+                        <strong>Name:</strong> {imageDescription?.data?.name} <br />
+                        <strong>Description:</strong> {imageDescription?.data?.description}
                     </p>
                 )}
                 {/* <Cta /> */}

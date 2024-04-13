@@ -43,7 +43,7 @@ app.post("/api/image", upload.single("file"), async (req, res) => {
         // Delete the uploaded file from the server
         // fs.unlinkSync(uploadedFilePath);
 
-        res.json({ message: "Image processed successfully.", data: imgRes });
+        res.json({ message: "Image processed successfully.", data: imgRes, ai: "openai" });
     } catch (error) {
         console.error("Error processing image:", error);
         res.status(500).json({ error: "Internal server error." });
@@ -55,7 +55,7 @@ app.post("/api/use", async (req, res) => {
 
     try {
         const result = await use(body);
-        res.json({ message: "Code generated successfully.", data: result });
+        res.json({ message: "Code generated successfully.", data: result, ai: "openai" });
     } catch (error) {
         console.error("Error processing use:", error);
         res.status(500).json({ error: "Internal server error." });
