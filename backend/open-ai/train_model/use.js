@@ -4,7 +4,7 @@ const OpenAI = require("openai");
 // const util = require('node:util');
 const { apiKey } = require("../../secrets");
 const openai = new OpenAI({ apiKey });
-const componentsPath = path.resolve(__dirname, "../../../frontend/src/components");
+const componentsPath = path.resolve(__dirname, "../../../frontend/src/components/ai-generated");
 const helper = require("../../helper");
 
 module.exports = async function use(data) {

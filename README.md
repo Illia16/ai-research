@@ -10,7 +10,7 @@
 
     - cd backend
     - npm i
-    - npm start:server
+    - npm run start:server
 
 # Backend:Python
 

@@ -3,10 +3,14 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import base64
 import json
+from pathlib import Path
+import argparse
+from django.conf import settings
 
 # GeminiAI
 import vertexai
 from vertexai.generative_models import GenerativeModel, Part
+from vertexai.preview.vision_models import ImageGenerationModel
 
 # Helpers
 from .helpers import react_component_names
@@ -38,3 +42,28 @@ def handleImage(request):
 def helloworld(request):
     print(request)
     return HttpResponse("Hello, world!")
+
+@csrf_exempt
+def generateImage(request):
+    data = json.loads(request.body)
+    text = data.get('prompt', None)
+
+    vertexai.init(project="omega-tenure-418822", location="us-central1")
+    model = ImageGenerationModel.from_pretrained("imagegeneration@006")
+    images = model.generate_images(
+        prompt=text,
+        number_of_images=1,
+        language="en",
+        # add_watermark=False,
+        # seed=100,
+        aspect_ratio="1:1",  # "9:16" "16:9" "4:3" "3:4"
+        safety_filter_level="block_some",
+        person_generation="allow_adult",
+    )
+
+    dirrProject = Path(settings.BASE_DIR_PROJECT)
+    fileImg = str(dirrProject / '_archived' / 'generated-images' / (text + '_geminiai' + '.png'))
+    images[0].save(location=fileImg, include_generation_parameters=True)
+    print(f"Created output image using {len(images[0]._image_bytes)} bytes")
+    
+    return JsonResponse({'success': True, 'message': fileImg, 'ai': 'geminiai'})

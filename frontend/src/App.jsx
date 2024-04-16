@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-// import Cta from "./components/Cta";
+import GenerateImage from "./components/GenerateImage";
+// import Cta from "./components/ai-generated/Cta";
 
 const App = () => {
     const [file, setFile] = useState(null);
@@ -115,6 +116,7 @@ const App = () => {
                     </p>
                 )}
                 {/* <Cta /> */}
+                <GenerateImage />
             </main>
         </div>
     );

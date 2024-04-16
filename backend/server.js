@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 4000;
 
 // Functions
 const image = require("./open-ai/train_model/image");
+const generateImage = require("./open-ai/generateImage");
 const use = require("./open-ai/train_model/use");
 const helper = require("./helper");
 
@@ -55,6 +56,19 @@ app.post("/api/use", async (req, res) => {
 
     try {
         const result = await use(body);
+        res.json({ message: "Code generated successfully.", data: result, ai: "openai" });
+    } catch (error) {
+        console.error("Error processing use:", error);
+        res.status(500).json({ error: "Internal server error." });
+    }
+});
+
+app.post("/api/generate-image", async (req, res) => {
+    const body = req.body;
+    const { prompt } = body;
+
+    try {
+        const result = await generateImage(prompt);
         res.json({ message: "Code generated successfully.", data: result, ai: "openai" });
     } catch (error) {
         console.error("Error processing use:", error);
