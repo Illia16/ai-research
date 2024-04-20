@@ -52,7 +52,7 @@ const GenerateImage = () => {
 
     return (
         <div>
-            <p>AI Generate Image</p>
+            <p>AI: Generate Image</p>
             <div className="form_el">
                 <label>
                     <input

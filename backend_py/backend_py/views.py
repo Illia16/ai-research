@@ -62,7 +62,7 @@ def generateImage(request):
     )
 
     dirrProject = Path(settings.BASE_DIR_PROJECT)
-    fileImg = str(dirrProject / '_archived' / 'generated-images' / (text + '_geminiai' + '.png'))
+    fileImg = str(dirrProject / 'generated-images' / 'geminiai' / (text + '.png'))
     images[0].save(location=fileImg, include_generation_parameters=True)
     print(f"Created output image using {len(images[0]._image_bytes)} bytes")
     
