@@ -62,8 +62,16 @@ def generateImage(request):
     )
 
     dirrProject = Path(settings.BASE_DIR_PROJECT)
-    fileImg = str(dirrProject / 'generated-images' / 'geminiai' / (text + '.png'))
+    fileImg = str(dirrProject / 'frontend' / 'public' / 'images' / 'generated-images' / 'geminiai' / (text + '.png'))
     images[0].save(location=fileImg, include_generation_parameters=True)
     print(f"Created output image using {len(images[0]._image_bytes)} bytes")
-    
+
     return JsonResponse({'success': True, 'message': fileImg, 'ai': 'geminiai'})
+
+@csrf_exempt
+def get_saved_images(request):
+    dirrProject = Path(settings.BASE_DIR_PROJECT)
+    imageFolderPath = str(dirrProject / 'frontend' / 'public' / 'images' / 'generated-images' / 'geminiai')
+    imageFiles = [f for f in Path(imageFolderPath).iterdir() if f.is_file()]
+    imageFiles = [f.name for f in imageFiles]
+    return JsonResponse({'success': True, 'message': imageFiles, 'ai': 'geminiai'})

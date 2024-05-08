@@ -17,7 +17,14 @@ module.exports = async function main(text) {
     // Decode base64 string to binary data
     const binaryData = Buffer.from(image.data[0].b64_json, "base64");
     // Define the directory to save the image (go 1 lvl up of backend/ dirr)
-    const directory = path.join(path.resolve(__dirname, "..", ".."), "generated-images", "openai");
+    const directory = path.join(
+        path.resolve(__dirname, "..", ".."),
+        "frontend",
+        "public",
+        "images",
+        "generated-images",
+        "openai"
+    );
 
     // Ensure the directory exists, create it if it doesn't
     if (!fs.existsSync(directory)) {

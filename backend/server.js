@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
 const fs = require("fs");
+const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -31,6 +32,8 @@ app.use(
     express.json()
 );
 
+// Generate React component:
+// 1) generate prompt from image input
 app.post("/api/image", upload.single("file"), async (req, res) => {
     try {
         if (!req.file) {
@@ -51,6 +54,7 @@ app.post("/api/image", upload.single("file"), async (req, res) => {
     }
 });
 
+// 2) Generate React component from prompt and write it to frontend components dirr
 app.post("/api/use", async (req, res) => {
     const body = req.body;
 
@@ -62,7 +66,9 @@ app.post("/api/use", async (req, res) => {
         res.status(500).json({ error: "Internal server error." });
     }
 });
+//
 
+// Generate image endpoint
 app.post("/api/generate-image", async (req, res) => {
     const body = req.body;
     const { prompt } = body;
@@ -74,6 +80,30 @@ app.post("/api/generate-image", async (req, res) => {
         console.error("Error processing use:", error);
         res.status(500).json({ error: "Internal server error." });
     }
+});
+//
+
+// Get locally saved images
+app.get("/api/get_saved_images", (req, res) => {
+    const imageFolderPath = path.join(
+        path.resolve(__dirname, ".."),
+        "frontend",
+        "public",
+        "images",
+        "generated-images",
+        "openai"
+    );
+
+    fs.readdir(imageFolderPath, (err, files) => {
+        if (err) {
+            console.error("Error reading directory:", err);
+            res.status(500).send("Internal Server Error");
+            return;
+        }
+
+        const imageFiles = files.filter((file) => file);
+        res.json(imageFiles);
+    });
 });
 
 // Start the server

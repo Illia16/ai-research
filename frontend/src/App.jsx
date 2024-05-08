@@ -94,7 +94,7 @@ const App = () => {
     return (
         <div className="App">
             <main className="App-main">
-                <p>AI: Description from image and generate React component</p>
+                <h2>AI: Description from image and generate React component</h2>
                 <div className="form_el">
                     <label htmlFor="file">
                         <input
