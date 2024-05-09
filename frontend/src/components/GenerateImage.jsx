@@ -29,6 +29,7 @@ const GenerateImage = () => {
                 .then((data) => {
                     console.log("Image generation successful:", data, typeof data);
                     setImageOpenAI(data?.data?.[0]);
+                    getSavedImages();
                 });
         } catch (error) {
             console.log("error", error);
@@ -48,6 +49,7 @@ const GenerateImage = () => {
                 .then((data) => {
                     console.log("Image generation successful:", data, typeof data);
                     // setImageGeminiAI(data);
+                    getSavedImages();
                 });
         } catch (error) {
             console.log("error", error);
