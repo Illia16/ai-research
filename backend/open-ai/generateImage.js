@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { v4: uuidv4 } = require("uuid");
 
 const OpenAI = require("openai");
 
@@ -7,6 +8,7 @@ const { apiKey } = require("../secrets");
 const openai = new OpenAI({ apiKey });
 
 module.exports = async function main(text) {
+    const uniqueId = uuidv4();
     const image = await openai.images.generate({
         model: "dall-e-3",
         prompt: text,
@@ -30,7 +32,16 @@ module.exports = async function main(text) {
     if (!fs.existsSync(directory)) {
         fs.mkdirSync(directory, { recursive: true });
     }
-    const filePath = path.join(directory, `${text}.png`);
+    const fileName =
+        text
+            .split(" ")
+            .slice(0, 5)
+            .join("_")
+            .replace(/[^\w\s]+/g, "")
+            .toLowerCase() +
+        "___" +
+        uniqueId;
+    const filePath = path.join(directory, `${fileName}.png`);
 
     // Save binary data to file
     fs.writeFileSync(filePath, binaryData);

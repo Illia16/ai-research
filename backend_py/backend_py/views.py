@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import base64
 import json
+import uuid
 from pathlib import Path
 import argparse
 from django.conf import settings
@@ -47,6 +48,7 @@ def helloworld(request):
 def generateImage(request):
     data = json.loads(request.body)
     text = data.get('prompt', None)
+    uniqueId = str(uuid.uuid4())
 
     vertexai.init(project="omega-tenure-418822", location="us-central1")
     model = ImageGenerationModel.from_pretrained("imagegeneration@006")
@@ -61,8 +63,15 @@ def generateImage(request):
         person_generation="allow_adult",
     )
 
+    fileName = (
+        '_'.join(text.split(" ")[:5])
+        .replace(r"[^\w\s]+", "")
+        .lower()
+    )
+    fileName += f"___{uniqueId}"
+
     dirrProject = Path(settings.BASE_DIR_PROJECT)
-    fileImg = str(dirrProject / 'frontend' / 'public' / 'images' / 'generated-images' / 'geminiai' / (text + '.png'))
+    fileImg = str(dirrProject / 'frontend' / 'public' / 'images' / 'generated-images' / 'geminiai' / (fileName + '.png'))
     images[0].save(location=fileImg, include_generation_parameters=True)
     print(f"Created output image using {len(images[0]._image_bytes)} bytes")
 
