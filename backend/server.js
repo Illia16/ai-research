@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 4000;
 // Functions
 const image = require("./open-ai/train_model/image");
 const generateImage = require("./open-ai/generateImage");
+const editImage = require("./open-ai/editImage");
 const use = require("./open-ai/train_model/use");
 const helper = require("./helper");
 
@@ -83,14 +84,32 @@ app.post("/api/generate-image", async (req, res) => {
 });
 //
 
+// Edit image endpoint
+app.post("/api/edit-image", upload.fields([{ name: "imageToEdit" }, { name: "imageMask" }]), async (req, res) => {
+    const files = req.files;
+    const { imageEditPrompt } = req.body;
+    const imageToEditPath = files.imageToEdit[0].path;
+    const imageMaskPath = files.imageMask[0].path;
+
+    try {
+        const result = await editImage(imageToEditPath, imageMaskPath, imageEditPrompt);
+        res.json({ message: "Image edited successfully.", data: result, ai: "openai" });
+    } catch (error) {
+        console.error("Error processing use:", error);
+        res.status(500).json({ error: "Internal server error." });
+    }
+});
+
 // Get locally saved images
 app.get("/api/get_saved_images", (req, res) => {
+    // const typeOfimages = req.query.images === "generated" ? "generated-images" : "edited-images";
     const imageFolderPath = path.join(
         path.resolve(__dirname, ".."),
         "frontend",
         "public",
         "images",
-        "generated-images",
+        // "generated-images",
+        req.query.images,
         "openai"
     );
 

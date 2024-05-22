@@ -58,7 +58,7 @@ const GenerateImage = () => {
 
     const getSavedImages = async () => {
         try {
-            await fetch("http://localhost:4000/api/get_saved_images")
+            await fetch("http://localhost:4000/api/get_saved_images?images=generated-images")
                 .then((response) => response.json())
                 .then((data) => {
                     console.log("success openai:", data, typeof data);
@@ -125,7 +125,7 @@ const GenerateImage = () => {
                             <h3>OpenAI</h3>
                             <ul className="image-library-images image-library-images--openai">
                                 {savedImagesOpenAi.map((img, index) => (
-                                    <li>
+                                    <li key={`image-library-images--openai___${index}`}>
                                         <img key={index} src={`/images/generated-images/openai/${img}`} alt="" />
                                         <a
                                             href={`/images/generated-images/openai/${img}`}
@@ -146,7 +146,7 @@ const GenerateImage = () => {
                             <h3>GeminiAI</h3>
                             <ul className="image-library-images image-library-images--geminiai">
                                 {savedImagesGeminiAi.map((img, index) => (
-                                    <li>
+                                    <li key={`image-library-images--geminiai___${index}`}>
                                         <img key={index} src={`/images/generated-images/geminiai/${img}`} alt="" />
                                         <a
                                             href={`/images/generated-images/geminiai/${img}`}
