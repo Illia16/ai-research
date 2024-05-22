@@ -85,7 +85,7 @@ const GenerateImage = () => {
     }, []);
 
     return (
-        <div>
+        <section>
             <h2>AI: Generate Image</h2>
             <div className="form_el">
                 <label>
@@ -123,11 +123,19 @@ const GenerateImage = () => {
                     {savedImagesOpenAi && savedImagesOpenAi.length ? (
                         <>
                             <h3>OpenAI</h3>
-                            <div className="image-library-images image-library-images--openai">
+                            <ul className="image-library-images image-library-images--openai">
                                 {savedImagesOpenAi.map((img, index) => (
-                                    <img key={index} src={`/images/generated-images/openai/${img}`} alt="" />
+                                    <li>
+                                        <img key={index} src={`/images/generated-images/openai/${img}`} alt="" />
+                                        <a
+                                            href={`/images/generated-images/openai/${img}`}
+                                            target="_blank"
+                                            rel="noreferrer">
+                                            <img src="/images/download.svg" alt="" />
+                                        </a>
+                                    </li>
                                 ))}
-                            </div>
+                            </ul>
                         </>
                     ) : null}
                 </div>
@@ -136,16 +144,24 @@ const GenerateImage = () => {
                     {savedImagesGeminiAi && savedImagesGeminiAi.length ? (
                         <>
                             <h3>GeminiAI</h3>
-                            <div className="image-library-images image-library-images--geminiai">
+                            <ul className="image-library-images image-library-images--geminiai">
                                 {savedImagesGeminiAi.map((img, index) => (
-                                    <img key={index} src={`/images/generated-images/geminiai/${img}`} alt="" />
+                                    <li>
+                                        <img key={index} src={`/images/generated-images/geminiai/${img}`} alt="" />
+                                        <a
+                                            href={`/images/generated-images/geminiai/${img}`}
+                                            target="_blank"
+                                            rel="noreferrer">
+                                            <img src="/images/download.svg" alt="" />
+                                        </a>
+                                    </li>
                                 ))}
-                            </div>
+                            </ul>
                         </>
                     ) : null}
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 
