@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 4000;
 const image = require("./open-ai/train_model/image");
 const generateImage = require("./open-ai/generateImage");
 const editImage = require("./open-ai/editImage");
+const variationImage = require("./open-ai/variationImage");
 const use = require("./open-ai/train_model/use");
 const helper = require("./helper");
 
@@ -100,6 +101,32 @@ app.post("/api/edit-image", upload.fields([{ name: "imageToEdit" }, { name: "ima
     }
 });
 
+// Variation image endpoint
+app.post("/api/variation-image", upload.single("imageVariation"), async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded." });
+    }
+    // example:
+    // req.file {
+    //     fieldname: 'imageVariation',
+    //     originalname: 'valley.png',
+    //     encoding: '7bit',
+    //     mimetype: 'image/png',
+    //     destination: 'uploads/',
+    //     filename: 'valley.png',
+    //     path: 'uploads/valley.png',
+    //     size: 1219370
+    //   }
+
+    try {
+        const result = await variationImage(req.file.path, req.file.originalname);
+        res.json({ message: "Image variation processed successfully.", data: result, ai: "openai" });
+    } catch (error) {
+        console.error("Error processing image:", error);
+        res.status(500).json({ error: "Internal server error." });
+    }
+});
+
 // Get locally saved images
 app.get("/api/get_saved_images", (req, res) => {
     // const typeOfimages = req.query.images === "generated" ? "generated-images" : "edited-images";
@@ -112,6 +139,11 @@ app.get("/api/get_saved_images", (req, res) => {
         req.query.images,
         "openai"
     );
+
+    if (!fs.existsSync(imageFolderPath)) {
+        res.json([]);
+        return;
+    }
 
     fs.readdir(imageFolderPath, (err, files) => {
         if (err) {
