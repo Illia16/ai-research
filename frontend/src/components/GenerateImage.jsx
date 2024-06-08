@@ -1,15 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // const img1 = require("../../src/images/generated-images/geminiai/React vs Vue as giant monsters.png");
+import ImgLibrary from "./ImgLibrary";
 
 const GenerateImage = () => {
     const [imagePrompt, setImagePrompt] = useState("");
     const [imageOpenAI, setImageOpenAI] = useState("");
     const [imageGeminiAI, setImageGeminiAI] = useState(""); // not using since GeminiAI does not return base64 nor url.
-
-    // Saved images
-    const [savedImagesOpenAi, setSavedImagesOpenAi] = useState([]);
-    const [savedImagesGeminiAi, setSavedImagesGeminiAi] = useState([]);
 
     const generateImageOpenAI = async () => {
         try {
@@ -29,7 +26,6 @@ const GenerateImage = () => {
                 .then((data) => {
                     console.log("Image generation successful:", data, typeof data);
                     setImageOpenAI(data?.data?.[0]);
-                    getSavedImages();
                 });
         } catch (error) {
             console.log("error", error);
@@ -49,40 +45,11 @@ const GenerateImage = () => {
                 .then((data) => {
                     console.log("Image generation successful:", data, typeof data);
                     // setImageGeminiAI(data);
-                    getSavedImages();
                 });
         } catch (error) {
             console.log("error", error);
         }
     };
-
-    const getSavedImages = async () => {
-        try {
-            await fetch("http://localhost:4000/api/get_saved_images?images=generated-images")
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log("success openai:", data, typeof data);
-                    setSavedImagesOpenAi(data);
-                });
-        } catch (error) {
-            console.log("error", error);
-        }
-
-        try {
-            await fetch("http://127.0.0.1:4010/api/get_saved_images")
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log("success geminiai:", data, typeof data);
-                    setSavedImagesGeminiAi(data.message);
-                });
-        } catch (error) {
-            console.log("error", error);
-        }
-    };
-
-    useEffect(() => {
-        getSavedImages();
-    }, []);
 
     return (
         <section>
@@ -117,50 +84,8 @@ const GenerateImage = () => {
             )}
 
             <h2>Image library:</h2>
-
-            <div className="image-library">
-                <div className="image-library--openai">
-                    {savedImagesOpenAi && savedImagesOpenAi.length ? (
-                        <>
-                            <h3>OpenAI</h3>
-                            <ul className="image-library-images image-library-images--openai">
-                                {savedImagesOpenAi.map((img, index) => (
-                                    <li key={`image-library-images--openai___${index}`}>
-                                        <img key={index} src={`/images/generated-images/openai/${img}`} alt="" />
-                                        <a
-                                            href={`/images/generated-images/openai/${img}`}
-                                            target="_blank"
-                                            rel="noreferrer">
-                                            <img src="/images/download.svg" alt="" />
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </>
-                    ) : null}
-                </div>
-
-                <div className="image-library--geminiai">
-                    {savedImagesGeminiAi && savedImagesGeminiAi.length ? (
-                        <>
-                            <h3>GeminiAI</h3>
-                            <ul className="image-library-images image-library-images--geminiai">
-                                {savedImagesGeminiAi.map((img, index) => (
-                                    <li key={`image-library-images--geminiai___${index}`}>
-                                        <img key={index} src={`/images/generated-images/geminiai/${img}`} alt="" />
-                                        <a
-                                            href={`/images/generated-images/geminiai/${img}`}
-                                            target="_blank"
-                                            rel="noreferrer">
-                                            <img src="/images/download.svg" alt="" />
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
-                        </>
-                    ) : null}
-                </div>
-            </div>
+            <ImgLibrary ai="openai" imgTypeDirr="generated-images" imgTypeDirrKey="generatedImages" />
+            <ImgLibrary ai="geminiai" imgTypeDirr="generated-images" imgTypeDirrKey="generatedImages" />
         </section>
     );
 };

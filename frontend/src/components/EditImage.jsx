@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import ImgLibrary from "./ImgLibrary";
 
 const EditImage = () => {
     const [image, setImage] = useState(null);
     const [imageMask, setImageMask] = useState(null);
     const [imageEditPrompt, setImageEditPrompt] = useState("");
-
-    // Saved images
-    const [savedImagesOpenAi, setSavedImagesOpenAi] = useState([]);
 
     const handleImage = (e, isMask) => {
         if (isMask) setImageMask(e.target.files[0]);
@@ -36,23 +34,6 @@ const EditImage = () => {
             console.log("error", error);
         }
     };
-
-    const getSavedImages = async () => {
-        try {
-            await fetch("http://localhost:4000/api/get_saved_images?images=edited-images")
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log("success openai:", data, typeof data);
-                    setSavedImagesOpenAi(data);
-                });
-        } catch (error) {
-            console.log("error", error);
-        }
-    };
-
-    useEffect(() => {
-        getSavedImages();
-    }, []);
 
     return (
         <section>
@@ -94,24 +75,7 @@ const EditImage = () => {
             </div>
 
             <button onClick={editImageOpenAI}>Edit Image with OpenAI</button>
-
-            {savedImagesOpenAi && savedImagesOpenAi.length ? (
-                <div className="image-library">
-                    <div className="image-library--openai">
-                        <h3>OpenAI Edited images library</h3>
-                        <ul className="image-library-images image-library-images--openai">
-                            {savedImagesOpenAi.map((img, index) => (
-                                <li key={`image-library-images--openai___${index}`}>
-                                    <img key={index} src={`/images/edited-images/openai/${img}`} alt="" />
-                                    <a href={`/images/edited-images/openai/${img}`} target="_blank" rel="noreferrer">
-                                        <img src="/images/download.svg" alt="" />
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-            ) : null}
+            <ImgLibrary ai="openai" imgTypeDirr="edited-images" imgTypeDirrKey="editedImages" />
         </section>
     );
 };

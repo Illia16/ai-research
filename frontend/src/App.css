@@ -103,3 +103,19 @@ p {
     width: 100%;
     height: auto;
 }
+
+.image-library--image-prompt {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: all ease-out 0.3s;
+}
+
+.image-library-images li:hover .image-library--image-prompt,
+.image-library-images li:focus .image-library--image-prompt {
+    opacity: 1;
+}

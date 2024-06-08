@@ -1,0 +1,17 @@
+{
+    "openai": {
+        "generatedImages": {},
+        "editedImages": {},
+        "variationImages": {
+            "taipeipng___18c87f0d-9b8a-4817-8526-a9edfdffa7c3": "This is Taipei city.",
+            "valleypng___9eb7f053-2b63-4a78-bc52-b8712da23134": "This is valley"
+        }
+    },
+    "geminiai": {
+        "generatedImages": {
+            "toronto_in_22nd_century": "Toronto in 22nd century."
+        },
+        "editedImages": {},
+        "variationImages": {}
+    }
+}

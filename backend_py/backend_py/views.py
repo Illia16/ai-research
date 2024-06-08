@@ -80,7 +80,14 @@ def generateImage(request):
 @csrf_exempt
 def get_saved_images(request):
     dirrProject = Path(settings.BASE_DIR_PROJECT)
-    imageFolderPath = str(dirrProject / 'frontend' / 'public' / 'images' / 'generated-images' / 'geminiai')
+    imgTypeDirr = request.GET.get('images')
+    imageFolderPath = str(dirrProject / 'frontend' / 'public' / 'images' / imgTypeDirr / 'geminiai')
+
     imageFiles = [f for f in Path(imageFolderPath).iterdir() if f.is_file()]
     imageFiles = [f.name for f in imageFiles]
-    return JsonResponse({'success': True, 'message': imageFiles, 'ai': 'geminiai'})
+
+    json_file_path = str(dirrProject / 'backend' / 'prompts.json')
+    with open(json_file_path, 'r') as file:
+        imagePromts = json.load(file)
+
+    return JsonResponse({'success': True, 'imageFiles': imageFiles, 'imagePromts': imagePromts, 'ai': 'geminiai'})

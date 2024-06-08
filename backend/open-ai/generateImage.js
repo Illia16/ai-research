@@ -1,52 +1,17 @@
-const fs = require("fs");
-const path = require("path");
-const { v4: uuidv4 } = require("uuid");
-
 const OpenAI = require("openai");
-
 const { apiKey } = require("../secrets");
 const openai = new OpenAI({ apiKey });
 
+const helper = require("../helper");
+
 module.exports = async function main(text) {
-    const uniqueId = uuidv4();
-    const image = await openai.images.generate({
+    const res = await openai.images.generate({
         model: "dall-e-3",
         prompt: text,
         response_format: "b64_json",
         // quality: "hd",
     });
 
-    // Decode base64 string to binary data
-    const binaryData = Buffer.from(image.data[0].b64_json, "base64");
-    // Define the directory to save the image (go 1 lvl up of backend/ dirr)
-    const directory = path.join(
-        path.resolve(__dirname, "..", ".."),
-        "frontend",
-        "public",
-        "images",
-        "generated-images",
-        "openai"
-    );
-
-    // Ensure the directory exists, create it if it doesn't
-    if (!fs.existsSync(directory)) {
-        fs.mkdirSync(directory, { recursive: true });
-    }
-    const fileName =
-        text
-            .split(" ")
-            .slice(0, 5)
-            .join("_")
-            .replace(/[^\w\s]+/g, "")
-            .toLowerCase() +
-        "___" +
-        uniqueId;
-    const filePath = path.join(directory, `${fileName}.png`);
-
-    // Save binary data to file
-    fs.writeFileSync(filePath, binaryData);
-
-    console.log("Image saved successfully.");
-
-    return image.data;
+    helper.saveImg(res.data[0].b64_json, "generated-images", text);
+    return res.data;
 };

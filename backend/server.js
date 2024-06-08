@@ -9,11 +9,14 @@ const PORT = process.env.PORT || 4000;
 
 // Functions
 const image = require("./open-ai/train_model/image");
+const use = require("./open-ai/train_model/use");
+
 const generateImage = require("./open-ai/generateImage");
 const editImage = require("./open-ai/editImage");
 const variationImage = require("./open-ai/variationImage");
-const use = require("./open-ai/train_model/use");
+
 const helper = require("./helper");
+const imagePromts = require("./prompts.json");
 
 // Set storage engine for multer
 const storage = multer.diskStorage({
@@ -129,13 +132,11 @@ app.post("/api/variation-image", upload.single("imageVariation"), async (req, re
 
 // Get locally saved images
 app.get("/api/get_saved_images", (req, res) => {
-    // const typeOfimages = req.query.images === "generated" ? "generated-images" : "edited-images";
     const imageFolderPath = path.join(
         path.resolve(__dirname, ".."),
         "frontend",
         "public",
         "images",
-        // "generated-images",
         req.query.images,
         "openai"
     );
@@ -153,7 +154,7 @@ app.get("/api/get_saved_images", (req, res) => {
         }
 
         const imageFiles = files.filter((file) => file);
-        res.json(imageFiles);
+        res.json({ success: true, imageFiles: imageFiles, imagePromts: imagePromts, ai: "openai" });
     });
 });
 
