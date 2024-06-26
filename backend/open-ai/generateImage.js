@@ -4,11 +4,12 @@ const openai = new OpenAI({ apiKey });
 
 const helper = require("../helper");
 
-module.exports = async function main(text) {
+module.exports = async function main(text, imageStyle) {
     const res = await openai.images.generate({
         model: "dall-e-3",
         prompt: text,
         response_format: "b64_json",
+        ...(imageStyle && { style: imageStyle }),
         // quality: "hd",
     });
 

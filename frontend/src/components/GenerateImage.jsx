@@ -5,6 +5,7 @@ import ImgLibrary from "./ImgLibrary";
 
 const GenerateImage = () => {
     const [imagePrompt, setImagePrompt] = useState("");
+    const [imageStyle, setImageStyle] = useState(""); // openai only for now
     const [imageOpenAI, setImageOpenAI] = useState("");
     const [imageGeminiAI, setImageGeminiAI] = useState(""); // not using since GeminiAI does not return base64 nor url.
 
@@ -12,7 +13,7 @@ const GenerateImage = () => {
         try {
             await fetch("http://localhost:4000/api/generate-image", {
                 method: "POST",
-                body: JSON.stringify({ prompt: imagePrompt }),
+                body: JSON.stringify({ prompt: imagePrompt, imageStyle: imageStyle }),
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -63,6 +64,17 @@ const GenerateImage = () => {
                         value={imagePrompt}
                         onChange={(e) => setImagePrompt(e.target.value)}
                     />
+                </label>
+                <label>
+                    <select
+                        name="imageStyle"
+                        id="imageStyle"
+                        value={imageStyle}
+                        onChange={(e) => setImageStyle(e.target.value)}>
+                        <option value="">Select style</option>
+                        <option value="natural">Natural</option>
+                        <option value="vivid">Vivid</option>
+                    </select>
                 </label>
                 <button onClick={generateImageOpenAI}>Generage image OpenAI</button>
                 <button onClick={generateImageGeminiAI}>Generage image GeminiAI</button>

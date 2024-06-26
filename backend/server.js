@@ -76,10 +76,10 @@ app.post("/api/use", async (req, res) => {
 // Generate image endpoint
 app.post("/api/generate-image", async (req, res) => {
     const body = req.body;
-    const { prompt } = body;
+    const { prompt, imageStyle } = body;
 
     try {
-        const result = await generateImage(prompt);
+        const result = await generateImage(prompt, imageStyle);
         res.json({ message: "Code generated successfully.", data: result, ai: "openai" });
     } catch (error) {
         console.error("Error processing use:", error);
