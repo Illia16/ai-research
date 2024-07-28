@@ -13,6 +13,7 @@ module.exports = async function main(text, imageStyle) {
         // quality: "hd",
     });
 
-    helper.saveImg(res.data[0].b64_json, "generated-images", text);
+    const savedImgRes = helper.saveImg(res.data[0].b64_json, "generated-images", text);
+    helper.savePrompt(savedImgRes.fileName, res.data[0].revised_prompt, "openai", "generatedImages");
     return res.data;
 };

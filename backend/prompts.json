@@ -1,10 +1,15 @@
 {
     "openai": {
-        "generatedImages": {},
-        "editedImages": {},
+        "generatedImages": {
+            "create_a_photo_of_me___4447311d-74e9-41d4-b72e-65925b2e1afb": "Generate an image of a 7-year-old child, of unspecified gender and descent, and their grandfather walking together on a wide, slightly uphill road. The road is encased in abundant and tall, vibrant sunflower fields, reaching a height of 2 to 2.5 meters. The scene should depict a sunny July day, highlighted by a clear sky and a palpable warm atmosphere. The grandfather is a distinguished-looking man in his 60s, standing 2 meters tall, striding along with the child who is around 1 meter tall. No trees are present in this sunlit landscape, only the endless sea of sunflower fields."
+        },
+        "editedImages": {
+            "put_starry_sky_with_milky___caa5cce5-23ee-4baf-abb3-3a2378f0e7b9": "Put starry sky with Milky Way galaxy."
+        },
         "variationImages": {
             "taipeipng___18c87f0d-9b8a-4817-8526-a9edfdffa7c3": "This is Taipei city.",
-            "valleypng___9eb7f053-2b63-4a78-bc52-b8712da23134": "This is valley"
+            "valleypng___9eb7f053-2b63-4a78-bc52-b8712da23134": "This is valley",
+            "me_grandpa_123__copypng___69e2012d-51f8-48b8-b83e-eb23ff096d02": "me_grandpa_123 - Copy.png"
         }
     },
     "geminiai": {

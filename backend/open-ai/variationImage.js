@@ -12,6 +12,7 @@ module.exports = async function main(imageToEdit, imageName) {
         response_format: "b64_json",
     });
 
-    helper.saveImg(res.data[0].b64_json, "variation-images", imageName);
+    const savedImgRes = helper.saveImg(res.data[0].b64_json, "variation-images", imageName);
+    helper.savePrompt(savedImgRes.fileName, res.data[0].revised_prompt || imageName, "openai", "variationImages");
     return res.data;
 };

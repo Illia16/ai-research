@@ -12,7 +12,7 @@ const EditImage = () => {
     };
 
     const editImageOpenAI = async () => {
-        if (!image || !imageMask || !imageEditPrompt) return;
+        if (!image || !imageEditPrompt) return;
 
         const formData = new FormData();
         formData.append("imageToEdit", image);

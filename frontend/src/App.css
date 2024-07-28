@@ -113,6 +113,11 @@ p {
     align-items: center;
     opacity: 0;
     transition: all ease-out 0.3s;
+    overflow-y: auto;
+}
+
+.image-library--image-prompt p {
+    font-size: 12px;
 }
 
 .image-library-images li:hover .image-library--image-prompt,

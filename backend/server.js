@@ -93,7 +93,7 @@ app.post("/api/edit-image", upload.fields([{ name: "imageToEdit" }, { name: "ima
     const files = req.files;
     const { imageEditPrompt } = req.body;
     const imageToEditPath = files.imageToEdit[0].path;
-    const imageMaskPath = files.imageMask[0].path;
+    const imageMaskPath = files?.imageMask?.[0]?.path || null; // mask can be skipped if included in imageToEdit
 
     try {
         const result = await editImage(imageToEditPath, imageMaskPath, imageEditPrompt);

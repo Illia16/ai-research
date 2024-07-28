@@ -26,14 +26,7 @@ const saveImg = (base64Str, imgTypeDirr, imageName) => {
     const uniqueId = uuidv4();
     const binaryData = Buffer.from(base64Str, "base64");
     // Define the directory to save the image (go 1 lvl up of backend/ dirr)
-    const directory = path.join(
-        path.resolve(__dirname, "..", ".."),
-        "frontend",
-        "public",
-        "images",
-        imgTypeDirr,
-        "openai"
-    );
+    const directory = path.join(path.resolve(__dirname, ".."), "frontend", "public", "images", imgTypeDirr, "openai");
 
     // Ensure the directory exists, create it if it doesn't
     if (!fs.existsSync(directory)) {
@@ -53,11 +46,35 @@ const saveImg = (base64Str, imgTypeDirr, imageName) => {
     // Save binary data to file
     fs.writeFileSync(filePath, binaryData);
 
-    return filePath;
+    return { filePath, fileName };
+};
+
+const savePrompt = (revisedPromptKey, revisedPromptVal, parentKey, childKey) => {
+    // Read the existing JSON file
+    let filePath = "prompts.json";
+    let data;
+
+    try {
+        data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    } catch (error) {
+        console.error("Error reading JSON file:", error);
+        return;
+    }
+
+    // Update it
+    data[parentKey][childKey][revisedPromptKey] = revisedPromptVal;
+
+    try {
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 4));
+        console.log("JSON file updated successfully.");
+    } catch (error) {
+        console.error("Error writing JSON file:", error);
+    }
 };
 
 module.exports = {
     convertFileToBase64,
     reactComponentNames,
     saveImg,
+    savePrompt,
 };
