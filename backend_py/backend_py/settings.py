@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
+from dotenv import load_dotenv
 from pathlib import Path
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,6 +25,7 @@ BASE_DIR_PROJECT = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-)it=xwck8d27m&*qij#i90c9mm4308cpa4wmr!_w7$-)4ys31a'
+PROJECT_ID = os.getenv('PROJECT_ID')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

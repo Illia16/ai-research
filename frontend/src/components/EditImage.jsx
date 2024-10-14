@@ -35,6 +35,29 @@ const EditImage = () => {
         }
     };
 
+    const editImageGeminiAI = async () => {
+        if (!image || !imageEditPrompt) return;
+
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("prompt", imageEditPrompt);
+
+        try {
+            await fetch("http://127.0.0.1:4010/api/edit-image", { method: "POST", body: formData })
+                .then((response) => {
+                    if (!response.ok) {
+                        console.log("Upload failed:", response);
+                    }
+                    return response.text();
+                })
+                .then((data) => {
+                    console.log("Upload successful:", data, typeof data);
+                });
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+
     return (
         <section>
             <h2>AI: Edit Image</h2>
@@ -74,8 +97,14 @@ const EditImage = () => {
                 </label>
             </div>
 
-            <button onClick={editImageOpenAI}>Edit Image with OpenAI</button>
+            <div>
+                <button onClick={editImageOpenAI}>Edit Image with OpenAI</button>
+            </div>
+            <div>
+                <button onClick={editImageGeminiAI}>Edit Image with GeminiAI</button>
+            </div>
             <ImgLibrary ai="openai" imgTypeDirr="edited-images" imgTypeDirrKey="editedImages" />
+            <ImgLibrary ai="geminiai" imgTypeDirr="edited-images" imgTypeDirrKey="editedImages" />
         </section>
     );
 };

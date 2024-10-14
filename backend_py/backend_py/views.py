@@ -6,15 +6,18 @@ import json
 import uuid
 from pathlib import Path
 import argparse
+import os
 from django.conf import settings
 
 # GeminiAI
 import vertexai
 from vertexai.generative_models import GenerativeModel, Part
-from vertexai.preview.vision_models import ImageGenerationModel
+from vertexai.preview.vision_models import Image, ImageGenerationModel
 
 # Helpers
-from .helpers import react_component_names
+from .helpers import react_component_names, save_prompt
+
+PROJECT_ID = os.getenv('PROJECT_ID')
 
 @csrf_exempt
 def handleImage(request):
@@ -23,7 +26,7 @@ def handleImage(request):
         image_data = image_file.read()
         base64_image = base64.b64encode(image_data).decode('utf-8')
 
-        vertexai.init(project="omega-tenure-418822", location="us-central1")
+        vertexai.init(project=PROJECT_ID, location="us-central1")
         multimodal_model = GenerativeModel("gemini-1.0-pro-vision")
 
         response = multimodal_model.generate_content(
@@ -42,7 +45,7 @@ def handleImage(request):
 
 def helloworld(request):
     print(request)
-    return HttpResponse("Hello, world!")
+    return HttpResponse(f"Hello, world! Env var PROJECT_ID:{PROJECT_ID}, DIRECTORY: {os.getcwd()}")
 
 @csrf_exempt
 def generateImage(request):
@@ -50,8 +53,8 @@ def generateImage(request):
     text = data.get('prompt', None)
     uniqueId = str(uuid.uuid4())
 
-    vertexai.init(project="omega-tenure-418822", location="us-central1")
-    model = ImageGenerationModel.from_pretrained("imagegeneration@006")
+    vertexai.init(project=PROJECT_ID, location="us-central1")
+    model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-001")
     images = model.generate_images(
         prompt=text,
         number_of_images=1,
@@ -73,8 +76,46 @@ def generateImage(request):
     dirrProject = Path(settings.BASE_DIR_PROJECT)
     fileImg = str(dirrProject / 'frontend' / 'public' / 'images' / 'generated-images' / 'geminiai' / (fileName + '.png'))
     images[0].save(location=fileImg, include_generation_parameters=True)
+
+    save_prompt(fileName, text, "geminiai", "generatedImages")
     print(f"Created output image using {len(images[0]._image_bytes)} bytes")
 
+    return JsonResponse({'success': True, 'message': fileImg, 'ai': 'geminiai'})
+
+@csrf_exempt
+def editImage(request):
+    uniqueId = str(uuid.uuid4())
+    image_file = request.FILES['file']
+    text = request.POST.get('prompt')
+    base64_image = base64.b64encode(image_file.read()).decode('utf-8')
+
+    vertexai.init(project=PROJECT_ID, location="us-central1")
+    model = ImageGenerationModel.from_pretrained("imagegeneration@002")
+
+    images = model.edit_image(
+        base_image=base64_image,
+        prompt=text,
+        # Optional parameters
+        seed=1,
+        # Controls the strength of the prompt.
+        # -- 0-9 (low strength), 10-20 (medium strength), 21+ (high strength)
+        guidance_scale=21,
+        number_of_images=1,
+    )
+
+    fileName = (
+        '_'.join(text.split(" ")[:5])
+        .replace(r"[^\w\s]+", "")
+        .lower()
+    )
+    fileName += f"___{uniqueId}"
+
+    dirrProject = Path(settings.BASE_DIR_PROJECT)
+    fileImg = str(dirrProject / 'frontend' / 'public' / 'images' / 'generated-images' / 'geminiai' / (fileName + '.png'))
+    images[0].save(location=fileImg, include_generation_parameters=True)
+    save_prompt(fileName, text, "geminiai", "editedImages")
+
+    print(f"Created output image using {len(images[0]._image_bytes)} bytes")
     return JsonResponse({'success': True, 'message': fileImg, 'ai': 'geminiai'})
 
 @csrf_exempt

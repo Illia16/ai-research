@@ -75,6 +75,7 @@ const GenerateImage = () => {
                         <option value="natural">Natural</option>
                         <option value="vivid">Vivid</option>
                     </select>
+                    (OpenAI only)
                 </label>
                 <button onClick={generateImageOpenAI}>Generage image OpenAI</button>
                 <button onClick={generateImageGeminiAI}>Generage image GeminiAI</button>
