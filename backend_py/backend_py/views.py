@@ -87,13 +87,13 @@ def editImage(request):
     uniqueId = str(uuid.uuid4())
     image_file = request.FILES['file']
     text = request.POST.get('prompt')
-    base64_image = base64.b64encode(image_file.read()).decode('utf-8')
+    img = Image(image_bytes=image_file.read())
 
     vertexai.init(project=PROJECT_ID, location="us-central1")
     model = ImageGenerationModel.from_pretrained("imagegeneration@002")
 
     images = model.edit_image(
-        base_image=base64_image,
+        base_image=img,
         prompt=text,
         # Optional parameters
         seed=1,
@@ -111,7 +111,7 @@ def editImage(request):
     fileName += f"___{uniqueId}"
 
     dirrProject = Path(settings.BASE_DIR_PROJECT)
-    fileImg = str(dirrProject / 'frontend' / 'public' / 'images' / 'generated-images' / 'geminiai' / (fileName + '.png'))
+    fileImg = str(dirrProject / 'frontend' / 'public' / 'images' / 'edited-images' / 'geminiai' / (fileName + '.png'))
     images[0].save(location=fileImg, include_generation_parameters=True)
     save_prompt(fileName, text, "geminiai", "editedImages")
 
