@@ -3,7 +3,7 @@ const Pronunciation = () => {
     return (
         <div>
             {" "}
-            <p> How is CAPLYTA pronounced? </p> <button> cap-LITE-uh </button>{" "}
+            <p> this is a paragraph </p> <button> this is a button </button>{" "}
         </div>
     );
 };
