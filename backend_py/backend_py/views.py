@@ -7,6 +7,7 @@ import uuid
 from pathlib import Path
 import argparse
 import os
+from datetime import datetime
 from django.conf import settings
 
 # GeminiAI
@@ -77,7 +78,7 @@ def generateImage(request):
     fileImg = str(dirrProject / 'frontend' / 'public' / 'images' / 'generated-images' / 'geminiai' / (fileName + '.png'))
     images[0].save(location=fileImg, include_generation_parameters=True)
 
-    save_prompt(fileName, text, "geminiai", "generatedImages")
+    save_prompt(fileName, text, "geminiai", "generated-images")
     print(f"Created output image using {len(images[0]._image_bytes)} bytes")
 
     return JsonResponse({'success': True, 'message': fileImg, 'ai': 'geminiai'})
@@ -113,7 +114,7 @@ def editImage(request):
     dirrProject = Path(settings.BASE_DIR_PROJECT)
     fileImg = str(dirrProject / 'frontend' / 'public' / 'images' / 'edited-images' / 'geminiai' / (fileName + '.png'))
     images[0].save(location=fileImg, include_generation_parameters=True)
-    save_prompt(fileName, text, "geminiai", "editedImages")
+    save_prompt(fileName, text, "geminiai", "edited-images")
 
     print(f"Created output image using {len(images[0]._image_bytes)} bytes")
     return JsonResponse({'success': True, 'message': fileImg, 'ai': 'geminiai'})
@@ -122,10 +123,33 @@ def editImage(request):
 def get_saved_images(request):
     dirrProject = Path(settings.BASE_DIR_PROJECT)
     imgTypeDirr = request.GET.get('images')
-    imageFolderPath = str(dirrProject / 'frontend' / 'public' / 'images' / imgTypeDirr / 'geminiai')
+    imageFolderPath = Path(dirrProject / 'frontend' / 'public' / 'images' / imgTypeDirr / 'geminiai')
 
-    imageFiles = [f for f in Path(imageFolderPath).iterdir() if f.is_file()]
-    imageFiles = [f.name for f in imageFiles]
+    if not imageFolderPath.exists():
+        json_file_path = str(dirrProject / 'backend' / 'prompts.json')
+        with open(json_file_path, 'r') as file:
+            imagePromts = json.load(file)
+        return JsonResponse({'success': True, 'imageFiles': [], 'imagePromts': imagePromts, 'ai': 'geminiai'})
+
+    allowed_extensions = ['.png', '.jpeg', '.jpg', '.webp']
+
+    imageFiles = []
+    for f in imageFolderPath.iterdir():
+        if f.is_file() and f.suffix.lower() in allowed_extensions:
+            try:
+                stat = f.stat()
+                # Convert timestamp to ISO 8601 format with Z timezone (e.g., 2024-05-07T20:38:54.662Z)
+                timestamp = stat.st_mtime
+                dt = datetime.fromtimestamp(timestamp)
+                # Format as ISO 8601 with milliseconds and Z timezone
+                createdAt = dt.strftime('%Y-%m-%dT%H:%M:%S') + '.' + f'{dt.microsecond // 1000:03d}' + 'Z'
+                imageFiles.append({'filename': f.name, 'createdAt': createdAt})
+            except OSError:
+                # If we can't get file stats, still include the file but without createdAt
+                imageFiles.append({'filename': f.name, 'createdAt': None})
+
+    # Sort from newest to oldest by creation date
+    imageFiles.sort(key=lambda x: x['createdAt'] if x['createdAt'] is not None else '', reverse=True)
 
     json_file_path = str(dirrProject / 'backend' / 'prompts.json')
     with open(json_file_path, 'r') as file:
