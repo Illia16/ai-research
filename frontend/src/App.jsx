@@ -3,6 +3,7 @@ import GenerateReactComponent from "./components/GenerateReactComponent";
 import GenerateImage from "./components/GenerateImage";
 import EditImage from "./components/EditImage";
 import VariationImage from "./components/VariationImage";
+import ImgLibrary from "./components/ImgLibrary";
 
 const App = () => {
     return (
@@ -12,6 +13,7 @@ const App = () => {
                 <GenerateImage />
                 <EditImage />
                 <VariationImage />
+                <ImgLibrary />
             </main>
         </div>
     );

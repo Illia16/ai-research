@@ -1,8 +1,9 @@
 import { useState } from "react";
-import ImgLibrary from "./ImgLibrary";
 
 const VariationImage = () => {
     const [image, setImage] = useState(null);
+    const [numberOfImages, setNumberOfImages] = useState(1);
+
 
     const handleImage = (e) => {
         setImage(e.target.files[0]);
@@ -12,6 +13,7 @@ const VariationImage = () => {
         if (!image) return;
         const formData = new FormData();
         formData.append("imageVariation", image);
+        formData.append("numberOfImages", numberOfImages);
 
         try {
             await fetch("http://localhost:4000/api/variation-image", { method: "POST", body: formData })
@@ -45,8 +47,21 @@ const VariationImage = () => {
                 </label>
             </div>
 
-            <button onClick={editImageOpenAI}>Create variation image with OpenAI</button>
-            <ImgLibrary ai="openai" imgTypeDirr="variation-images" imgTypeDirrKey="variationImages" />
+            <div className="form_el">
+                <label>
+                    <input
+                        type="number"
+                        name="numberOfImages"
+                        id="numberOfImages"
+                        min="1"
+                        max="10"
+                        value={numberOfImages}
+                        onChange={(e) => setNumberOfImages(Number(e.target.value))}
+                    />
+                </label>
+            </div>
+
+            <button onClick={editImageOpenAI} className="btn-primary">Create variation image with OpenAI</button>
         </section>
     );
 };

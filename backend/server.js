@@ -76,14 +76,14 @@ app.post("/api/use", async (req, res) => {
 // Generate image endpoint
 app.post("/api/generate-image", async (req, res) => {
     const body = req.body;
-    const { prompt, imageStyle } = body;
+    const { prompt, imageStyle, aiModel, background, numberOfImages } = body;
 
     try {
-        const result = await generateImage(prompt, imageStyle);
+        const result = await generateImage(prompt, imageStyle, aiModel, background, numberOfImages);
         res.json({ message: "Code generated successfully.", data: result, ai: "openai" });
     } catch (error) {
         console.error("Error processing use:", error);
-        res.status(500).json({ error: "Internal server error." });
+        res.status(500).json({ error: error.message });
     }
 });
 //
@@ -91,16 +91,16 @@ app.post("/api/generate-image", async (req, res) => {
 // Edit image endpoint
 app.post("/api/edit-image", upload.fields([{ name: "imageToEdit" }, { name: "imageMask" }]), async (req, res) => {
     const files = req.files;
-    const { imageEditPrompt } = req.body;
-    const imageToEditPath = files.imageToEdit[0].path;
+    const { imageEditPrompt, aiModel, background, input_fidelity, numberOfImages } = req.body;
+    const imageToEditPath = files.imageToEdit[0].path; // only one image to edit
     const imageMaskPath = files?.imageMask?.[0]?.path || null; // mask can be skipped if included in imageToEdit
 
     try {
-        const result = await editImage(imageToEditPath, imageMaskPath, imageEditPrompt);
+        const result = await editImage({ imageToEdit: files.imageToEdit, imageMask: imageMaskPath, imageEditPrompt, aiModel, background, input_fidelity, numberOfImages });
         res.json({ message: "Image edited successfully.", data: result, ai: "openai" });
     } catch (error) {
         console.error("Error processing use:", error);
-        res.status(500).json({ error: "Internal server error." });
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -109,6 +109,8 @@ app.post("/api/variation-image", upload.single("imageVariation"), async (req, re
     if (!req.file) {
         return res.status(400).json({ error: "No file uploaded." });
     }
+    const { numberOfImages } = req.body;
+
     // example:
     // req.file {
     //     fieldname: 'imageVariation',
@@ -122,7 +124,7 @@ app.post("/api/variation-image", upload.single("imageVariation"), async (req, re
     //   }
 
     try {
-        const result = await variationImage(req.file.path, req.file.originalname);
+        const result = await variationImage({ imageToEdit: req.file.path, imageName: req.file.originalname, numberOfImages });
         res.json({ message: "Image variation processed successfully.", data: result, ai: "openai" });
     } catch (error) {
         console.error("Error processing image:", error);
@@ -132,30 +134,65 @@ app.post("/api/variation-image", upload.single("imageVariation"), async (req, re
 
 // Get locally saved images
 app.get("/api/get_saved_images", (req, res) => {
-    const imageFolderPath = path.join(
+    const baseImagesPath = path.join(
         path.resolve(__dirname, ".."),
         "frontend",
         "public",
-        "images",
-        req.query.images,
-        "openai"
+        "images"
     );
 
-    if (!fs.existsSync(imageFolderPath)) {
-        res.json([]);
-        return;
-    }
+    const imageTypes = ["edited-images", "generated-images", "variation-images"];
+    const aiProviders = ["openai", "geminiai"];
+    const allowedExtensions = ['.png', '.jpeg', '.jpg', '.webp'];
+    let allImageFiles = [];
 
-    fs.readdir(imageFolderPath, (err, files) => {
-        if (err) {
-            console.error("Error reading directory:", err);
-            res.status(500).send("Internal Server Error");
-            return;
-        }
+    // Read images from all three directories and both AI providers
+    imageTypes.forEach((imageType) => {
+        aiProviders.forEach((aiProvider) => {
+            const imageFolderPath = path.join(baseImagesPath, imageType, aiProvider);
 
-        const imageFiles = files.filter((file) => file);
-        res.json({ success: true, imageFiles: imageFiles, imagePromts: imagePromts, ai: "openai" });
+            if (fs.existsSync(imageFolderPath)) {
+                try {
+                    const files = fs.readdirSync(imageFolderPath);
+
+                    const imageFiles = files
+                        .filter((file) => {
+                            const ext = path.extname(file).toLowerCase();
+                            return allowedExtensions.includes(ext);
+                        })
+                        .map((file) => {
+                            const filePath = path.join(imageFolderPath, file);
+                            let createdAt = null;
+                            try {
+                                const stat = fs.statSync(filePath);
+                                createdAt = stat.birthtime;
+                            } catch (err) {
+                                createdAt = null;
+                            }
+                            return {
+                                filename: file,
+                                createdAt,
+                                imageType: imageType,
+                                ai: aiProvider,
+                                path: `/images/${imageType}/${aiProvider}/${file}`
+                            };
+                        });
+
+                    allImageFiles = allImageFiles.concat(imageFiles);
+                } catch (err) {
+                    console.error(`Error reading directory ${imageType}/${aiProvider}:`, err);
+                }
+            }
+        });
     });
+
+    // Sort from newest to oldest by creation date
+    allImageFiles.sort((a, b) => {
+        if (!a.createdAt || !b.createdAt) return 0;
+        return b.createdAt - a.createdAt;
+    });
+
+    res.json({ success: true, imageFiles: allImageFiles, imagePromts: imagePromts });
 });
 
 // Start the server

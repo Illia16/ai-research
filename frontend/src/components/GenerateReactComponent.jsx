@@ -90,8 +90,8 @@ const GenerateReactComponent = () => {
                 <label htmlFor="file">
                     <input className="kf-fileInput__field" type="file" name="file" id="file" onChange={handleFile} />
                 </label>
-                <button onClick={submitOpenAI}>Submit to OpenAI</button>
-                <button onClick={submitGeminiAI}>Submit to Google GeminiAI</button>
+                <button onClick={submitOpenAI} className="btn-primary">Submit to OpenAI</button>
+                <button onClick={submitGeminiAI} className="btn-primary">Submit to Google GeminiAI</button>
             </div>
             {imageDescription && imageDescription?.data && (
                 <p id="image-prompt">

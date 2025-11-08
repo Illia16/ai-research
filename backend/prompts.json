@@ -1,29 +1,48 @@
 {
     "openai": {
-        "generatedImages": {
-            "create_a_photo_of_me___4447311d-74e9-41d4-b72e-65925b2e1afb": "Generate an image of a 7-year-old child, of unspecified gender and descent, and their grandfather walking together on a wide, slightly uphill road. The road is encased in abundant and tall, vibrant sunflower fields, reaching a height of 2 to 2.5 meters. The scene should depict a sunny July day, highlighted by a clear sky and a palpable warm atmosphere. The grandfather is a distinguished-looking man in his 60s, standing 2 meters tall, striding along with the child who is around 1 meter tall. No trees are present in this sunlit landscape, only the endless sea of sunflower fields."
+        "generated-images": {
+            "create_a_photo_of_me___4447311d-74e9-41d4-b72e-65925b2e1afb": "Generate an image of a 7-year-old child, of unspecified gender and descent, and their grandfather walking together on a wide, slightly uphill road. The road is encased in abundant and tall, vibrant sunflower fields, reaching a height of 2 to 2.5 meters. The scene should depict a sunny July day, highlighted by a clear sky and a palpable warm atmosphere. The grandfather is a distinguished-looking man in his 60s, standing 2 meters tall, striding along with the child who is around 1 meter tall. No trees are present in this sunlit landscape, only the endless sea of sunflower fields.",
+            "tf2_smismass___2360e46c-c1bc-4cae-bbaf-ba53d777b9fa": "tf2 smismass",
+            "tf2_halloween___d97e9d8a-8ab3-4d5f-927f-1308ae1c97d2": "tf2 halloween",
+            "beautifull_sunny_day_a_field___5d35d4b9-8b05-4803-a885-7ed6ca970c4a": "beautifull sunny day, a field of green grass like Windows XP wallpaper",
+            "beautifull_sunny_day_a_field___02033b34-b439-4dd6-be35-abc4b061f048": "beautifull sunny day, a field of green grass like Windows XP wallpaper",
+            "beautifull_sunny_day_a_field___1566282e-b188-4dd8-b793-263733f3b93f": "Imagine a beautiful sunny day with a clear blue sky. A field of tall, green grass stretches out beyond the horizon, gently swaying in a soft breeze. The unending sea of green is reminiscent of the iconic Windows XP wallpaper. The warm sunlight fills the scene, augmenting the vibrancy of the colors and adding an aura of tranquillity to the vista.",
+            "beautifull_sunny_day_a_field___84dc3024-dffa-4a55-a457-6893f31a53f4": "A delightful sunny day, with the sun high in the clear, azure sky. A vast field of bright, verdant grass stretches to the horizon, radiating tranquility. The scene is reminiscent of an iconic computer wallpaper, with the absence of any objects or obstructions across the field, it conveys serenity and peace, allowing one to imagine the rustling sound of the grass and the warmth of the sun on their skin.",
+            "beautifull_sunny_day_a_field___e7fa87da-e726-442e-b34b-0e70b782c74c": "beautifull sunny day, a field of green grass like Windows XP wallpaper",
+            "cossacks3_ai": "Cossacks 3 AI",
+            "22nd_century___b0b6cf06-e0fa-4d08-bed4-f0bef4d4eb08": "Envision a futuristic city in the 22nd century. The landscape showcases the harmonious blend of technology and nature, with skyscrapers glistening with holographic panels and rooftops teeming with greenery. Airborne vehicles are moving in synchronized patterns in the sky. In the midst of the city, diverse citizens of different descents and genders are interacting with advanced tech gadgets. Black, Hispanic, Caucasian, Middle-Eastern, South Asian individuals are visible, showcasing ethnic diversity. Some are engrossed in their transparent digital screens while others are using wearable tech watches and virtual reality glasses.",
+            "22nd_century___ead3c708-6ff2-41a3-a19f-ff494e50a7dc": "22nd century"
         },
-        "editedImages": {
-            "put_starry_sky_with_milky___caa5cce5-23ee-4baf-abb3-3a2378f0e7b9": "Put starry sky with Milky Way galaxy."
+        "edited-images": {
+            "put_starry_sky_with_milky___caa5cce5-23ee-4baf-abb3-3a2378f0e7b9": "Put starry sky with Milky Way galaxy.",
+            "add_more_buildings___d471f674-51c3-481c-84f1-0c36f54be59e": "add more buildings",
+            "add_more_buildings___5c20248f-0e95-4cbb-a8cf-5c7cb8c49b2f": "add more buildings",
+            "add_more_buildings___f9396f70-4ac0-4416-aeba-50e666d72fb4": "add more buildings",
+            "add_rainfall___28a505cd-0dc7-4d33-ad8d-c4595ddde032": "add rainfall",
+            "combine_these_together___d7f1b87c-e33a-414e-9f03-04c2d49b1412": "combine these together"
         },
-        "variationImages": {
+        "variation-images": {
             "taipeipng___18c87f0d-9b8a-4817-8526-a9edfdffa7c3": "This is Taipei city.",
             "valleypng___9eb7f053-2b63-4a78-bc52-b8712da23134": "This is valley",
-            "me_grandpa_123__copypng___69e2012d-51f8-48b8-b83e-eb23ff096d02": "me_grandpa_123 - Copy.png"
+            "me_grandpa_123__copypng___69e2012d-51f8-48b8-b83e-eb23ff096d02": "me_grandpa_123 - Copy.png",
+            "___redwall_abbey_during_summer___eeb6d02de5524d8782f4b29aa0cdc650png___b6db847f-8e42-4dde-a8ac-2240c6c6df28": "___redwall_abbey_during_summer___eeb6d02d-e552-4d87-82f4-b29aa0cdc650.png",
+            "cossacks3aipng___670f38a5-5e09-477f-a22c-32955ad72e08": "cossacks3-ai.png",
+            "cossacks3aipng___e7223dc7-67c7-454f-94ee-b9d79a277745": "cossacks3-ai.png",
+            "cossacks3aipng___7b61a24c-9402-478d-ab07-21bc8975c072": "cossacks3-ai.png"
         }
     },
     "geminiai": {
-        "generatedImages": {
+        "generated-images": {
             "toronto_in_22nd_century": "Toronto in 22nd century.",
             "life_on_moon_with_oceans,___a96b5b8d-6718-404d-b4bb-610f35e5486e": "Life on moon with oceans.",
             "sunset___8fee8d62-4e20-4d7f-aa08-27099580b342": "Sunset",
             "redwall_abbey_during_summer___eeb6d02d-e552-4d87-82f4-b29aa0cdc650": "Redwall abbey during summer",
             "a_young_asian_doctor_offering___45b15f8b-8e23-45f6-a8bf-a36315f5dfcb": "A young Asian doctor offering a comforting hand to a patient, symbolizing understanding and empathic care"
         },
-        "editedImages": {
+        "edited-images": {
             "add_more_skyscrapers___2768760f-63e1-4b37-b3a8-1ead07c96874": "add more skyscrapers",
             "add_animals___1b5fb785-4cd8-4628-bd41-8b5f6614062b": "Add animals"
         },
-        "variationImages": {}
+        "variation-images": {}
     }
 }
