@@ -15,7 +15,13 @@ const GenerateImage = () => {
         try {
             await fetch("http://localhost:4000/api/generate-image", {
                 method: "POST",
-                body: JSON.stringify({ prompt: imagePrompt, imageStyle: imageStyle, aiModel: aiModel, background: imageBackground, numberOfImages: numberOfImages }),
+                body: JSON.stringify({
+                    prompt: imagePrompt,
+                    imageStyle: imageStyle,
+                    aiModel: aiModel,
+                    background: imageBackground,
+                    numberOfImages: numberOfImages,
+                }),
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -36,10 +42,12 @@ const GenerateImage = () => {
     };
 
     const generateImageGeminiAI = async () => {
+        if (!imagePrompt || !aiModel) return;
+
         try {
             await fetch("http://127.0.0.1:4010/api/generate-image", {
                 method: "POST",
-                body: JSON.stringify({ prompt: imagePrompt }),
+                body: JSON.stringify({ prompt: imagePrompt, modelName: aiModel, numberOfImages }),
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -69,11 +77,7 @@ const GenerateImage = () => {
                     />
                 </label>
                 <label>
-                    <select
-                        name="aiModel"
-                        id="aiModel"
-                        value={aiModel}
-                        onChange={(e) => setAiModel(e.target.value)}>
+                    <select name="aiModel" id="aiModel" value={aiModel} onChange={(e) => setAiModel(e.target.value)}>
                         <option value="">Select model</option>
                         <option value="gpt-image-1">gpt-image-1 (default)</option>
                         <option value="dall-e-3">Dall-e 3</option>
@@ -108,7 +112,7 @@ const GenerateImage = () => {
                         </label>
                     </>
                 )}
-                {(aiModel === "dall-e-3") && (
+                {aiModel === "dall-e-3" && (
                     <label>
                         <select
                             name="imageStyle"
@@ -121,8 +125,32 @@ const GenerateImage = () => {
                         </select>
                     </label>
                 )}
-                <button onClick={generateImageOpenAI} className="btn-primary">Generage image OpenAI</button>
-                <button onClick={generateImageGeminiAI} className="btn-primary">Generage image GeminiAI</button>
+                <button onClick={generateImageOpenAI} className="btn-primary">
+                    Generage image OpenAI
+                </button>
+
+                <label>
+                    <select name="aiModel" id="aiModel" value={aiModel} onChange={(e) => setAiModel(e.target.value)}>
+                        <option value="">Select model</option>
+                        <option value="imagen-4.0-generate-001">imagen-4.0-generate-001</option>
+                        <option value="imagen-3.0-generate-002">imagen-3.0-generate-002</option>
+                        <option value="imagen-3.0-generate-001">imagen-3.0-generate-001</option>
+                    </select>
+                </label>
+                <label>
+                    <input
+                        type="number"
+                        name="numberOfImagesGeminiAi"
+                        id="numberOfImagesGeminiAi"
+                        min="1"
+                        max="4"
+                        value={numberOfImages}
+                        onChange={(e) => setNumberOfImages(Number(e.target.value))}
+                    />
+                </label>
+                <button onClick={generateImageGeminiAI} className="btn-primary">
+                    Generage image GeminiAI
+                </button>
             </div>
 
             {(imageOpenAI?.url || imageOpenAI?.b64_json) && (

@@ -5,8 +5,8 @@ const EditImage = () => {
     const [imageMask, setImageMask] = useState(null);
     const [imageEditPrompt, setImageEditPrompt] = useState("");
     const [aiModel, setAiModel] = useState("gpt-image-1");
-    const [imageBackground, setImageBackground] = useState('auto');
-    const [input_fidelity, setInputFidelity] = useState('low');
+    const [imageBackground, setImageBackground] = useState("auto");
+    const [input_fidelity, setInputFidelity] = useState("low");
     const [numberOfImages, setNumberOfImages] = useState(1);
 
     const handleImage = (e, isMask) => {
@@ -45,11 +45,13 @@ const EditImage = () => {
     };
 
     const editImageGeminiAI = async () => {
-        if (!image || !imageEditPrompt) return;
+        if (!image || !imageEditPrompt || !aiModel || !numberOfImages) return;
 
         const formData = new FormData();
-        formData.append("file", image);
+        formData.append("file", image[0]); // for Gemini, attach one (1st image) only
         formData.append("prompt", imageEditPrompt);
+        formData.append("modelName", aiModel);
+        formData.append("numberOfImages", numberOfImages);
 
         try {
             await fetch("http://127.0.0.1:4010/api/edit-image", { method: "POST", body: formData })
@@ -110,11 +112,7 @@ const EditImage = () => {
 
             <div className="form_el">
                 <label>
-                    <select
-                        name="aiModel"
-                        id="aiModel"
-                        value={aiModel}
-                        onChange={(e) => setAiModel(e.target.value)}>
+                    <select name="aiModel" id="aiModel" value={aiModel} onChange={(e) => setAiModel(e.target.value)}>
                         <option value="">Select model</option>
                         <option value="gpt-image-1">gpt-image-1 (default)</option>
                         <option value="dall-e-3">Dall-e 3</option>
@@ -158,7 +156,7 @@ const EditImage = () => {
                         name="numberOfImages"
                         id="numberOfImages"
                         min="1"
-                        max="10"
+                        max="4"
                         value={numberOfImages}
                         onChange={(e) => setNumberOfImages(Number(e.target.value))}
                     />
@@ -166,10 +164,42 @@ const EditImage = () => {
             </div>
 
             <div>
-                <button onClick={editImageOpenAI} className="btn-primary">Edit Image with OpenAI</button>
+                <button onClick={editImageOpenAI} className="btn-primary">
+                    Edit Image with OpenAI
+                </button>
             </div>
+
+            <div className="form_el">
+                <label>
+                    <select name="aiModel" id="aiModel" value={aiModel} onChange={(e) => setAiModel(e.target.value)}>
+                        <option value="">Select model</option>
+                        <option value="imagen-3.0-capability-001">imagen-3.0-capability-001</option>
+                        {/* todo: the below do not work with the current setup */}
+                        {/* <option value="imagen-3.0-capability-002">imagen-3.0-capability-002</option> */}
+                        {/* <option value="imagegeneration@006">imagegeneration@006</option> */}
+                        {/* <option value="imagegeneration@002">imagegeneration@002</option> */}
+                    </select>
+                </label>
+            </div>
+
+            <div className="form_el">
+                <label>
+                    <input
+                        type="number"
+                        name="numberOfImagesGeminiAi"
+                        id="numberOfImagesGeminiAi"
+                        min="1"
+                        max="4"
+                        value={numberOfImages}
+                        onChange={(e) => setNumberOfImages(Number(e.target.value))}
+                    />
+                </label>
+            </div>
+
             <div>
-                <button onClick={editImageGeminiAI} className="btn-primary">Edit Image with GeminiAI</button>
+                <button onClick={editImageGeminiAI} className="btn-primary">
+                    Edit Image with GeminiAI
+                </button>
             </div>
         </section>
     );
