@@ -23,6 +23,7 @@ from google.genai import types
 from .helpers import react_component_names, save_prompt
 
 PROJECT_ID = os.getenv('PROJECT_ID')
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 @csrf_exempt
 def handleImage(request):
@@ -68,18 +69,9 @@ def generateImage(request):
     number_of_images = data.get('numberOfImages', None)
     uniqueId = str(uuid.uuid4())
 
-    client = genai.Client(vertexai=True, project=PROJECT_ID, location="us-central1");
-    # Generate Image
-    response1 = client.models.generate_images(
-        model=modelName,
-        prompt=text,
-        config=types.GenerateImagesConfig(
-            number_of_images=number_of_images,
-            include_rai_reason=True,
-            output_mime_type='image/jpeg',
-        ),
-    )
-    print(response1)
+    dirrProject = Path(settings.BASE_DIR_PROJECT)
+    output_dir = dirrProject / "frontend" / "public" / "images" / "generated-images" / "geminiai"
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     fileName = (
         '_'.join(text.split(" ")[:5])
@@ -88,19 +80,48 @@ def generateImage(request):
     )
     fileName += f"___{uniqueId}"
 
-    dirrProject = Path(settings.BASE_DIR_PROJECT)    
-
     saved_paths = []
-    for i, img in enumerate(response1.generated_images, start=1):
-        fileImg = (dirrProject/ 'frontend' / 'public' / 'images' / 'generated-images' / 'geminiai'/ f"{fileName}__{i}.png")
 
-        with open(fileImg, "wb") as f:
-            f.write(img.image.image_bytes)
+    if modelName == "gemini-2.5-flash-image":
+        client = genai.Client(api_key=GEMINI_API_KEY)
+        response = client.models.generate_content(
+            model=modelName,
+            contents=[text],
+            config=types.GenerateContentConfig(
+                response_modalities=['Text', 'Image']
+            )
+        )
+        print(response)
 
-        save_prompt(fileName + f"__{i}", img.enhanced_prompt or text, "geminiai", "generated-images")
-        print(f"Created output image {i} using {len(img.image.image_bytes)} bytes")
+        for part in response.parts:
+            if part.text is not None:
+                save_prompt(fileName, part.text or text, "geminiai", "generated-images")
+            elif part.inline_data is not None:
+                image = part.as_image()
+                image.save(f"{output_dir / fileName}.png")
+                saved_paths.append(f"/images/generated-images/geminiai/{fileName}.png")
+    else:
+        client = genai.Client(vertexai=True, project=PROJECT_ID, location="us-central1");
+        # Generate Image using other models
+        response = client.models.generate_images(
+            model=modelName,
+            prompt=text,
+            config=types.GenerateImagesConfig(
+                number_of_images=number_of_images,
+                include_rai_reason=True,
+                output_mime_type='image/jpeg',
+            ),
+        )
+        print(response)
 
-        saved_paths.append(f"/images/generated-images/geminiai/{fileName}__{i}.png")
+        for i, img in enumerate(response.generated_images, start=1):
+            fileImg = output_dir / f"{fileName}__{i}.png"
+            with open(fileImg, "wb") as f:
+                f.write(img.image.image_bytes)
+
+            save_prompt(fileName + f"__{i}", img.enhanced_prompt or text, "geminiai", "generated-images")
+            print(f"Created output image {i} using {len(img.image.image_bytes)} bytes")
+            saved_paths.append(f"/images/generated-images/geminiai/{fileName}__{i}.png")
 
     return JsonResponse({'success': True, 'message': saved_paths, 'ai': 'geminiai'})
 
@@ -109,6 +130,7 @@ def editImage(request):
     uniqueId = str(uuid.uuid4())
     image_file = request.FILES['file']
     image_bytes = image_file.read()
+    image_fileSecond_bytes = request.FILES['fileSecond'].read() if 'fileSecond' in request.FILES else None
     text = request.POST.get('prompt')
     modelName = request.POST.get('modelName')
     number_of_images = request.POST.get('numberOfImages', None)
@@ -118,27 +140,9 @@ def editImage(request):
     print(f"modelName: {modelName}")
     print(f"number_of_images: {number_of_images}")
 
-    client = genai.Client(vertexai=True, project=PROJECT_ID, location="us-central1");
-    # Edit Image
-    raw_ref_image = RawReferenceImage(
-        reference_id=1,
-        reference_image=types.Image(image_bytes=image_bytes),
-    )
-    
-    response = client.models.edit_image(
-        model=modelName,
-        prompt=text,
-        reference_images=[raw_ref_image],
-        config=types.EditImageConfig(
-            # edit_mode= "EDIT_MODE_INPAINT_INSERTION",
-            # person_generation="allow_all",
-            number_of_images=number_of_images,
-            include_rai_reason=True,
-            output_mime_type='image/png',
-            # output_compression_quality=100
-        ),
-    )
-    print(response)
+    dirrProject = Path(settings.BASE_DIR_PROJECT)
+    output_dir = dirrProject / "frontend" / "public" / "images" / "edited-images" / "geminiai"
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     fileName = (
         '_'.join(text.split(" ")[:5])
@@ -146,20 +150,63 @@ def editImage(request):
         .lower()
     )
     fileName += f"___{uniqueId}"
-
-    dirrProject = Path(settings.BASE_DIR_PROJECT)
-
     saved_paths = []
-    for i, img in enumerate(response.generated_images, start=1):
-        fileImg = (dirrProject/ 'frontend' / 'public' / 'images' / 'edited-images' / 'geminiai'/ f"{fileName}__{i}.png")
 
-        with open(fileImg, "wb") as f:
-            f.write(img.image.image_bytes)
+    if modelName == "gemini-2.5-flash-image":
+        client = genai.Client(api_key=GEMINI_API_KEY)
+        response = client.models.generate_content(
+            model=modelName,
+            contents=[
+                types.Part.from_text(text=text), 
+                types.Part.from_bytes(data=image_bytes, mime_type="image/png"),
+                *(
+                    [types.Part.from_bytes(data=image_fileSecond_bytes, mime_type="image/png")]
+                    if image_fileSecond_bytes else []
+                ),
+            ]
+        )
+        print(response)
 
-        save_prompt(fileName + f"__{i}", img.enhanced_prompt or text, "geminiai", "edited-images")
-        print(f"Created output image {i} using {len(img.image.image_bytes)} bytes")
+        for part in response.parts:
+            if part.text is not None:
+                save_prompt(fileName, part.text or text, "geminiai", "edited-images")
+            elif part.inline_data is not None:
+                image = part.as_image()
+                image.save(f"{output_dir / fileName}.png")
+                saved_paths.append(f"/images/edited-images/geminiai/{fileName}.png")
+    else:
+        client = genai.Client(vertexai=True, project=PROJECT_ID, location="us-central1");
+        # Edit Image
+        raw_ref_image = RawReferenceImage(
+            reference_id=1,
+            reference_image=types.Image(image_bytes=image_bytes),
+        )
+        
+        response = client.models.edit_image(
+            model=modelName,
+            prompt=text,
+            reference_images=[raw_ref_image],
+            config=types.EditImageConfig(
+                # edit_mode= "EDIT_MODE_INPAINT_INSERTION",
+                # person_generation="allow_all",
+                number_of_images=number_of_images,
+                include_rai_reason=True,
+                output_mime_type='image/png',
+                # output_compression_quality=100
+            ),
+        )
+        print(response)
 
-        saved_paths.append(f"/images/edited-images/geminiai/{fileName}__{i}.png")
+        for i, img in enumerate(response.generated_images, start=1):
+            fileImg = output_dir / f"{fileName}__{i}.png"
+
+            with open(fileImg, "wb") as f:
+                f.write(img.image.image_bytes)
+
+            save_prompt(fileName + f"__{i}", img.enhanced_prompt or text, "geminiai", "edited-images")
+            print(f"Created output image {i} using {len(img.image.image_bytes)} bytes")
+
+            saved_paths.append(f"/images/edited-images/geminiai/{fileName}__{i}.png")
 
     return JsonResponse({'success': True, 'message': saved_paths, 'ai': 'geminiai'})
 

@@ -4,7 +4,6 @@ const VariationImage = () => {
     const [image, setImage] = useState(null);
     const [numberOfImages, setNumberOfImages] = useState(1);
 
-
     const handleImage = (e) => {
         setImage(e.target.files[0]);
     };
@@ -33,7 +32,7 @@ const VariationImage = () => {
 
     return (
         <section>
-            <h2>AI: Variation Image</h2>
+            <h2>AI: Variation Image (OpenAI only)</h2>
             <div className="form_el">
                 <p>Select image to create a variation from</p>
                 <label>
@@ -61,7 +60,9 @@ const VariationImage = () => {
                 </label>
             </div>
 
-            <button onClick={editImageOpenAI} className="btn-primary">Create variation image with OpenAI</button>
+            <button onClick={editImageOpenAI} className="btn-primary">
+                Create variation image with OpenAI
+            </button>
         </section>
     );
 };
