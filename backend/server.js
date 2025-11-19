@@ -14,6 +14,7 @@ const use = require("./open-ai/train_model/use");
 const generateImage = require("./open-ai/generateImage");
 const editImage = require("./open-ai/editImage");
 const variationImage = require("./open-ai/variationImage");
+const { generateVideo, pollVideoGeneration, downloadVideo, listVideos, remixVideo } = require("./open-ai/generateVideo");
 
 const helper = require("./helper");
 const imagePromts = require("./prompts.json");
@@ -132,8 +133,44 @@ app.post("/api/variation-image", upload.single("imageVariation"), async (req, re
     }
 });
 
-// Get locally saved images
-app.get("/api/get_saved_images", (req, res) => {
+// List videos endpoint
+app.get("/api/list-videos", async (req, res) => {
+    const videos = await listVideos();
+    res.json({ message: "Videos listed successfully.", data: videos });
+});
+
+// Generate video endpoint
+app.post("/api/generate-video", upload.fields([{ name: "imageReference" }]), async (req, res) => {
+    const files = req.files;
+    const { videoGenPrompt, aiModel, videoId, seconds, remixPrompt } = req.body;
+
+    try {
+        if (videoId) {
+            if (remixPrompt) {
+                const result = await remixVideo({ remixPrompt, videoId });
+                return res.json({ message: "Video remix started successfully.", data: result, ai: "openai" });
+            } else {
+                const result = await pollVideoGeneration(videoId);
+                if (result.status === "completed") {
+                    await downloadVideo(videoId);
+                    return res.json({ message: "Video generation completed successfully.", data: result, ai: "openai" });
+                }
+
+                return res.json({ message: "Video generation in progress.", data: result, ai: "openai" });
+            }
+        } else {
+            const result = await generateVideo({ videoGenPrompt, aiModel, imageReference: files.imageReference, seconds });
+            res.json({ message: "Video generation started successfully.", data: result, ai: "openai" });
+        }
+    } catch (error) {
+        console.error("Error processing use:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
+//
+
+// Get locally saved images and videos
+app.get("/api/get_saved_media", (req, res) => {
     const baseImagesPath = path.join(
         path.resolve(__dirname, ".."),
         "frontend",
@@ -141,10 +178,19 @@ app.get("/api/get_saved_images", (req, res) => {
         "images"
     );
 
+    const baseVideosPath = path.join(
+        path.resolve(__dirname, ".."),
+        "frontend",
+        "public",
+        "videos"
+    );
+
     const imageTypes = ["edited-images", "generated-images", "variation-images"];
     const aiProviders = ["openai", "geminiai"];
-    const allowedExtensions = ['.png', '.jpeg', '.jpg', '.webp'];
+    const allowedImageExtensions = ['.png', '.jpeg', '.jpg', '.webp'];
+    const allowedVideoExtensions = ['.mp4', '.webm', '.mov', '.avi'];
     let allImageFiles = [];
+    let allVideoFiles = [];
 
     // Read images from all three directories and both AI providers
     imageTypes.forEach((imageType) => {
@@ -158,7 +204,7 @@ app.get("/api/get_saved_images", (req, res) => {
                     const imageFiles = files
                         .filter((file) => {
                             const ext = path.extname(file).toLowerCase();
-                            return allowedExtensions.includes(ext);
+                            return allowedImageExtensions.includes(ext);
                         })
                         .map((file) => {
                             const filePath = path.join(imageFolderPath, file);
@@ -186,13 +232,55 @@ app.get("/api/get_saved_images", (req, res) => {
         });
     });
 
+    // Read videos from all AI providers
+    aiProviders.forEach((aiProvider) => {
+        const videoFolderPath = path.join(baseVideosPath, aiProvider);
+
+        if (fs.existsSync(videoFolderPath)) {
+            try {
+                const files = fs.readdirSync(videoFolderPath);
+
+                const videoFiles = files
+                    .filter((file) => {
+                        const ext = path.extname(file).toLowerCase();
+                        return allowedVideoExtensions.includes(ext);
+                    })
+                    .map((file) => {
+                        const filePath = path.join(videoFolderPath, file);
+                        let createdAt = null;
+                        try {
+                            const stat = fs.statSync(filePath);
+                            createdAt = stat.birthtime;
+                        } catch (err) {
+                            createdAt = null;
+                        }
+                        return {
+                            filename: file,
+                            createdAt,
+                            ai: aiProvider,
+                            path: `/videos/${aiProvider}/${file}`
+                        };
+                    });
+
+                allVideoFiles = allVideoFiles.concat(videoFiles);
+            } catch (err) {
+                console.error(`Error reading directory videos/${aiProvider}:`, err);
+            }
+        }
+    });
+
     // Sort from newest to oldest by creation date
     allImageFiles.sort((a, b) => {
         if (!a.createdAt || !b.createdAt) return 0;
         return b.createdAt - a.createdAt;
     });
 
-    res.json({ success: true, imageFiles: allImageFiles, imagePromts: imagePromts });
+    allVideoFiles.sort((a, b) => {
+        if (!a.createdAt || !b.createdAt) return 0;
+        return b.createdAt - a.createdAt;
+    });
+
+    res.json({ success: true, imageFiles: allImageFiles, videoFiles: allVideoFiles, imagePromts: imagePromts });
 });
 
 // Start the server

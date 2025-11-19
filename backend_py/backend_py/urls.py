@@ -23,6 +23,6 @@ urlpatterns = [
     path("api/image", views.handleImage, name="handleImage"),
     path("api/generate-image", views.generateImage, name="generateImage"),
     path("api/edit-image", views.editImage, name="editImage"),
-    path("api/get_saved_images", views.get_saved_images, name="get_saved_images"),
+    path("api/get_saved_media", views.get_saved_media, name="get_saved_media"),
     path("", views.helloworld, name="helloworld"),
 ]

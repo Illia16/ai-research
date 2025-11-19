@@ -61,6 +61,16 @@ const savePrompt = (revisedPromptKey, revisedPromptVal, parentKey, childKey) => 
         return;
     }
 
+    // Ensure parent key exists
+    if (!data[parentKey]) {
+        data[parentKey] = {};
+    }
+
+    // Ensure child key exists
+    if (!data[parentKey][childKey]) {
+        data[parentKey][childKey] = {};
+    }
+
     // Update it
     data[parentKey][childKey][revisedPromptKey] = revisedPromptVal;
 

@@ -35,6 +35,83 @@
             "cossacks3aipng___670f38a5-5e09-477f-a22c-32955ad72e08": "cossacks3-ai.png",
             "cossacks3aipng___e7223dc7-67c7-454f-94ee-b9d79a277745": "cossacks3-ai.png",
             "cossacks3aipng___7b61a24c-9402-478d-ab07-21bc8975c072": "cossacks3-ai.png"
+        },
+        "generated-videos": {
+            "video_691d26c58e048198bb26ca75c9eb781b053c21fe024fb054": {
+                "id": "video_691d26c58e048198bb26ca75c9eb781b053c21fe024fb054",
+                "object": "video",
+                "created_at": 1763518149,
+                "status": "completed",
+                "completed_at": 1763518222,
+                "error": null,
+                "expires_at": 1763521822,
+                "model": "sora-2",
+                "progress": 100,
+                "prompt": "Creepy catacombs",
+                "remixed_from_video_id": null,
+                "seconds": "4",
+                "size": "1280x720"
+            },
+            "video_691bf26950388190a0a2a4e54d1eb0fe01fc8f4259fb2900": {
+                "id": "video_691bf26950388190a0a2a4e54d1eb0fe01fc8f4259fb2900",
+                "object": "video",
+                "created_at": null,
+                "status": "completed",
+                "completed_at": null,
+                "error": null,
+                "expires_at": null,
+                "model": "sora-2-pro",
+                "progress": 100,
+                "prompt": "Underwater city in Bioshock style",
+                "remixed_from_video_id": null,
+                "seconds": "4",
+                "size": "1280x720"
+            },
+            "video_691d3300b8c081908abd450c8ed7fd6e0f8ab75685b60fea": {
+                "id": "video_691d3300b8c081908abd450c8ed7fd6e0f8ab75685b60fea",
+                "object": "video",
+                "created_at": 1763521280,
+                "status": "completed",
+                "completed_at": 1763521412,
+                "error": null,
+                "expires_at": 1763525012,
+                "model": "sora-2-pro",
+                "progress": 100,
+                "prompt": "Stormy Black sea in Aivazovsky style",
+                "remixed_from_video_id": null,
+                "seconds": "4",
+                "size": "1280x720"
+            },
+            "video_691d365d82288190862b8350d58e92be0b5850bf7548256e": {
+                "id": "video_691d365d82288190862b8350d58e92be0b5850bf7548256e",
+                "object": "video",
+                "created_at": 1763522141,
+                "status": "completed",
+                "completed_at": 1763522284,
+                "error": null,
+                "expires_at": 1763525884,
+                "model": "sora-2-pro",
+                "progress": 100,
+                "prompt": "Make the storks fly",
+                "remixed_from_video_id": null,
+                "seconds": "4",
+                "size": "1280x720"
+            },
+            "video_691d4631f31c8193b5ea78ef46c88e620ffbe9c7e10c99f6": {
+                "id": "video_691d4631f31c8193b5ea78ef46c88e620ffbe9c7e10c99f6",
+                "object": "video",
+                "created_at": 1763526194,
+                "status": "completed",
+                "completed_at": 1763526332,
+                "error": null,
+                "expires_at": 1763529932,
+                "model": "sora-2-pro",
+                "progress": 100,
+                "prompt": "Add whales",
+                "remixed_from_video_id": "video_691bf26950388190a0a2a4e54d1eb0fe01fc8f4259fb2900",
+                "seconds": "4",
+                "size": "1280x720"
+            }
         }
     },
     "geminiai": {
@@ -48,7 +125,7 @@
             "cossacks_3_game___963579c0-9d75-4005-978d-00afbe181b07": "Cossacks 3 game",
             "cossacks_3_game___e6235a23-9077-4419-bf56-db7b4f1e028c": "Cossacks 3 game",
             "lion_with_rose_boquete___da8d75f3-5d9a-4849-a192-c666c3758de5": "A majestic male lion, with a full, flowing mane in shades of gold and amber, holds a bouquet of vibrant red roses in its mouth. The roses are arranged loosely, with some greenery interspersed, and a few petals drift near its paws. The lion is seated in a sun-drenched, overgrown garden, with soft, diffused light filtering through dappled leaves in the background. Its eyes are a piercing amber, and its expression is gentle yet regal. The image is captured at eye level with a shallow depth of field, rendering the background slightly out of focus to keep the lion and roses as the primary subject.",
-            "kids_jumping_into_snowdrifts_having___352ce528-1d7b-4336-b5ae-0625429d302b": "Joyful children are mid-air, leaping into deep, powdery snowdrifts. The scene is set in a vibrant winter wonderland with snow-covered pine trees in the background under a soft, overcast sky. Two children, bundled in colorful winter gear\u2014one in a bright red jacket and blue snow pants, the other in a yellow jacket and green snow pants\u2014are captured at the peak of their jump, arms outstretched and faces beaming with laughter. Snow is exploding around them from their impact, catching the subtle light. The perspective is slightly low-angle, emphasizing the height of their jump and the depth of the snow.",
+            "kids_jumping_into_snowdrifts_having___352ce528-1d7b-4336-b5ae-0625429d302b": "Joyful children are mid-air, leaping into deep, powdery snowdrifts. The scene is set in a vibrant winter wonderland with snow-covered pine trees in the background under a soft, overcast sky. Two children, bundled in colorful winter gear—one in a bright red jacket and blue snow pants, the other in a yellow jacket and green snow pants—are captured at the peak of their jump, arms outstretched and faces beaming with laughter. Snow is exploding around them from their impact, catching the subtle light. The perspective is slightly low-angle, emphasizing the height of their jump and the depth of the snow.",
             "kids_jumping_into_snowdrifts_having___58dcc782-7487-4173-806a-cc56e3379795__1": "A group of diverse children, aged approximately 6-10, joyfully leaping and tumbling into large, fluffy snowdrifts, kicking up powdery snow. They are dressed in colorful winter gear including insulated jackets, snow pants, hats, gloves, and scarves. Their faces are lit with laughter and excitement. The scene is set in a snow-covered landscape with pine trees in the background, under a bright, clear winter sky. Sunlight catches the falling snow, creating a sparkling effect. The image is captured from a slightly low angle to emphasize the children in mid-air and the height of the snowdrifts.",
             "kids_jumping_into_snowdrifts_having___58dcc782-7487-4173-806a-cc56e3379795__2": "Two children, bundled in colorful winter gear, are captured mid-air as they leap into deep, powdery snowdrifts. The child on the left, wearing a bright red jacket and blue snow pants, has their arms outstretched in excitement, a wide smile on their face. The child on the right, in a yellow jacket and green snow pants, is slightly ahead, their legs bent as they prepare to land. Snow billows around them in soft clouds, kicked up by their playful jumps. The background features a snow-covered landscape with frosted evergreen trees under a slightly overcast sky, suggesting a cold but bright winter day. Sunlight catches the falling snow, creating a shimmering effect. The image is captured from a slightly low angle, emphasizing the height of their jumps and the depth of the snow.",
             "kids_jumping_into_snowdrifts_style___9cdbc2f8-b0ff-466a-ad21-81b9e909e040__1": "A hand-drawn illustration depicting a whimsical winter scene. Several children, bundled in colorful winter clothing with exaggerated puffy coats and hats, are in various stages of jumping into massive, soft-looking snowdrifts. The lines are slightly uneven, suggesting a human touch, and the colors are vibrant but slightly muted, as if applied with colored pencils or crayons. Snowflakes are scattered across the scene, some large and stylized, others smaller and more numerous. The background shows rolling hills of snow and a few evergreen trees, also rendered in a hand-drawn style with simple, organic shapes. The sky is a pale blue with fluffy white clouds, and the overall impression is playful and joyful.",
@@ -76,6 +153,7 @@
             "add_sailing_boats_on_the___fe76f8d0-8bd7-4426-ac6d-6ed27e4dc55e__2": "add sailing boats on the water",
             "add_sailing_boats_on_the___76377891-7159-4fe8-9762-6f36c46f1838": "Sure, here are some sailing boats on the water: "
         },
-        "variation-images": {}
+        "variation-images": {},
+        "generated-videos": {}
     }
 }

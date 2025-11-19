@@ -157,7 +157,7 @@ def editImage(request):
         response = client.models.generate_content(
             model=modelName,
             contents=[
-                types.Part.from_text(text=text), 
+                types.Part.from_text(text=text),
                 types.Part.from_bytes(data=image_bytes, mime_type="image/png"),
                 *(
                     [types.Part.from_bytes(data=image_fileSecond_bytes, mime_type="image/png")]
@@ -181,7 +181,7 @@ def editImage(request):
             reference_id=1,
             reference_image=types.Image(image_bytes=image_bytes),
         )
-        
+
         response = client.models.edit_image(
             model=modelName,
             prompt=text,
@@ -211,7 +211,7 @@ def editImage(request):
     return JsonResponse({'success': True, 'message': saved_paths, 'ai': 'geminiai'})
 
 @csrf_exempt
-def get_saved_images(request):
+def get_saved_media(request):
     dirrProject = Path(settings.BASE_DIR_PROJECT)
     imgTypeDirr = request.GET.get('images')
     imageFolderPath = Path(dirrProject / 'frontend' / 'public' / 'images' / imgTypeDirr / 'geminiai')

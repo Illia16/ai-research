@@ -3,7 +3,8 @@ import GenerateReactComponent from "./components/GenerateReactComponent";
 import GenerateImage from "./components/GenerateImage";
 import EditImage from "./components/EditImage";
 import VariationImage from "./components/VariationImage";
-import ImgLibrary from "./components/ImgLibrary";
+import MediaLibrary from "./components/MediaLibrary";
+import GenerateVideo from "./components/GenerateVideo";
 
 const App = () => {
     return (
@@ -13,7 +14,8 @@ const App = () => {
                 <GenerateImage />
                 <EditImage />
                 <VariationImage />
-                <ImgLibrary />
+                <GenerateVideo />
+                <MediaLibrary />
             </main>
         </div>
     );

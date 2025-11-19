@@ -52,45 +52,56 @@ button.btn-primary {
     padding: 1rem 2rem;
 }
 
-button:hover {
+button:hover:not(:disabled) {
     background: #61dafb;
     color: #282c34;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 p {
     font-size: 1rem;
 }
 
-/* .image-library */
-/* .image-library--openai */
-/* .image-library--geminiai */
+/* .media-library */
+/* .media-library--openai */
+/* .media-library--geminiai */
 
-.image-library {
+.media-library-container {
     display: flex;
     flex-wrap: wrap;
 }
 
-.image-library--openai,
-.image-library--geminiai {
+.media-library--openai,
+.media-library--geminiai {
     width: 100%;
 }
 
-.image-library-images {
+.media-library,
+.media-library-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
     gap: 1rem;
     padding: 1rem;
     max-height: 591.5px;
     overflow-y: overlay;
 }
 
-.image-library-images li {
+.media-library li,
+.media-library-list li {
     list-style-type: none;
     position: relative;
 }
 
-.image-library-images button,
-.image-library-images a {
+.media-library-list button {
+    width: auto;
+}
+
+.media-library button,
+.media-library a {
     position: absolute;
     top: -10px;
     width: 20px;
@@ -99,20 +110,21 @@ p {
     background: white;
 }
 
-.image-library-images a {
+.media-library a {
     right: -10px;
 }
 
-.image-library-images button {
+.media-library button {
     right: 10px;
 }
 
-.image-library-images img {
+.media-library img {
     width: 100%;
     height: auto;
 }
 
-.image-library--image-prompt--date {
+.media-library--image-prompt--date,
+.media-library--video-prompt--date {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.75);
@@ -126,11 +138,14 @@ p {
     padding: 1rem 0;
 }
 
-.image-library--image-prompt--date p {
+.media-library--image-prompt--date p,
+.media-library--video-prompt--date p {
     font-size: 12px;
 }
 
-.image-library-images li:hover .image-library--image-prompt--date,
-.image-library-images li:focus .image-library--image-prompt--date {
+.media-library li:hover .media-library--image-prompt--date,
+.media-library li:focus .media-library--image-prompt--date,
+.media-library li:hover .media-library--video-prompt--date,
+.media-library li:focus .media-library--video-prompt--date {
     opacity: 1;
 }
