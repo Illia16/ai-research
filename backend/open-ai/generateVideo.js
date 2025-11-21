@@ -14,13 +14,13 @@ async function remixVideo({ remixPrompt, videoId }) {
     return video;
 }
 
-async function generateVideo({ videoGenPrompt, aiModel, imageReference, seconds }) {
-    console.log('generateVideo', videoGenPrompt, aiModel, imageReference);
+async function generateVideo({ videoGenPrompt, aiModel, imageReference, seconds, size }) {
+    console.log("generateVideo", videoGenPrompt, aiModel, imageReference, size);
 
     const form = new FormData();
     form.append("prompt", videoGenPrompt);
     form.append("model", aiModel);
-    form.append("size", "1280x720"); // Supported values are: '720x1280', '1280x720', '1024x1792', and '1792x1024'.",
+    form.append("size", size); // Supported values are: '720x1280', '1280x720', '1024x1792', and '1792x1024'.",
     form.append("seconds", seconds);
 
     if (imageReference) {
@@ -29,7 +29,6 @@ async function generateVideo({ videoGenPrompt, aiModel, imageReference, seconds 
             form.append("input_reference", new Blob([fileBuffer], { type: file.mimetype }), file.originalname);
         });
     }
-    console.log('form', form);
 
     try {
         const res = await fetch("https://api.openai.com/v1/videos", {
@@ -41,18 +40,22 @@ async function generateVideo({ videoGenPrompt, aiModel, imageReference, seconds 
         });
 
         const data = await res.json();
-        helper.savePrompt(data.id, data, "openai", "generated-videos");
 
-        console.log("Response:", data);
+        // Save video data if there's not error
+        if (!data?.error?.message) {
+            helper.savePrompt(data.id, data, "openai", "generated-videos");
+        }
+
+        console.log("response generateVideo:", data);
         return data;
     } catch (err) {
         console.error("Error:", err);
     }
-};
+}
 
 async function pollVideoGeneration(videoId) {
     const res = await openai.videos.retrieve(videoId);
-    console.log("Response:", res);
+    console.log("response:", res);
 
     // Once video is completed(or failed), update the entry in prompts.json with the final data
     if (res.status === "completed" || res.status === "failed") {
@@ -71,7 +74,7 @@ async function downloadVideo(videoId) {
         fs.mkdirSync(directory, { recursive: true });
     }
     fs.writeFileSync(path.join(directory, `${videoId}.mp4`), buffer);
-    console.log('Wrote video.mp4');
+    console.log("Wrote video.mp4");
 }
 
 async function listVideos() {
@@ -83,10 +86,17 @@ async function listVideos() {
     return videos;
 }
 
+async function deleteVideo(videoId) {
+    const video = await openai.videos.delete(videoId);
+    console.log("response deleteVideo:", video);
+    return video;
+}
+
 module.exports = {
     pollVideoGeneration,
     generateVideo,
     downloadVideo,
     listVideos,
     remixVideo,
+    deleteVideo,
 };

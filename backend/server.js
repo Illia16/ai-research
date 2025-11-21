@@ -14,7 +14,14 @@ const use = require("./open-ai/train_model/use");
 const generateImage = require("./open-ai/generateImage");
 const editImage = require("./open-ai/editImage");
 const variationImage = require("./open-ai/variationImage");
-const { generateVideo, pollVideoGeneration, downloadVideo, listVideos, remixVideo } = require("./open-ai/generateVideo");
+const {
+    generateVideo,
+    pollVideoGeneration,
+    downloadVideo,
+    listVideos,
+    remixVideo,
+    deleteVideo,
+} = require("./open-ai/generateVideo");
 
 const helper = require("./helper");
 const imagePromts = require("./prompts.json");
@@ -97,7 +104,15 @@ app.post("/api/edit-image", upload.fields([{ name: "imageToEdit" }, { name: "ima
     const imageMaskPath = files?.imageMask?.[0]?.path || null; // mask can be skipped if included in imageToEdit
 
     try {
-        const result = await editImage({ imageToEdit: files.imageToEdit, imageMask: imageMaskPath, imageEditPrompt, aiModel, background, input_fidelity, numberOfImages });
+        const result = await editImage({
+            imageToEdit: files.imageToEdit,
+            imageMask: imageMaskPath,
+            imageEditPrompt,
+            aiModel,
+            background,
+            input_fidelity,
+            numberOfImages,
+        });
         res.json({ message: "Image edited successfully.", data: result, ai: "openai" });
     } catch (error) {
         console.error("Error processing use:", error);
@@ -125,7 +140,11 @@ app.post("/api/variation-image", upload.single("imageVariation"), async (req, re
     //   }
 
     try {
-        const result = await variationImage({ imageToEdit: req.file.path, imageName: req.file.originalname, numberOfImages });
+        const result = await variationImage({
+            imageToEdit: req.file.path,
+            imageName: req.file.originalname,
+            numberOfImages,
+        });
         res.json({ message: "Image variation processed successfully.", data: result, ai: "openai" });
     } catch (error) {
         console.error("Error processing image:", error);
@@ -139,10 +158,18 @@ app.get("/api/list-videos", async (req, res) => {
     res.json({ message: "Videos listed successfully.", data: videos });
 });
 
+// Delete video from Openai DB only (keep the actual file on the hardrive)
+app.post("/api/delete-video", upload.none(), async (req, res) => {
+    const body = req.body;
+    const { videoId } = body;
+    const video = await deleteVideo(videoId);
+    res.json({ message: "Video deleted successfully.", data: video });
+});
+
 // Generate video endpoint
 app.post("/api/generate-video", upload.fields([{ name: "imageReference" }]), async (req, res) => {
     const files = req.files;
-    const { videoGenPrompt, aiModel, videoId, seconds, remixPrompt } = req.body;
+    const { videoGenPrompt, aiModel, videoId, seconds, remixPrompt, size } = req.body;
 
     try {
         if (videoId) {
@@ -153,13 +180,23 @@ app.post("/api/generate-video", upload.fields([{ name: "imageReference" }]), asy
                 const result = await pollVideoGeneration(videoId);
                 if (result.status === "completed") {
                     await downloadVideo(videoId);
-                    return res.json({ message: "Video generation completed successfully.", data: result, ai: "openai" });
+                    return res.json({
+                        message: "Video generation completed successfully.",
+                        data: result,
+                        ai: "openai",
+                    });
                 }
 
                 return res.json({ message: "Video generation in progress.", data: result, ai: "openai" });
             }
         } else {
-            const result = await generateVideo({ videoGenPrompt, aiModel, imageReference: files.imageReference, seconds });
+            const result = await generateVideo({
+                videoGenPrompt,
+                aiModel,
+                imageReference: files.imageReference,
+                seconds,
+                size,
+            });
             res.json({ message: "Video generation started successfully.", data: result, ai: "openai" });
         }
     } catch (error) {
@@ -171,24 +208,14 @@ app.post("/api/generate-video", upload.fields([{ name: "imageReference" }]), asy
 
 // Get locally saved images and videos
 app.get("/api/get_saved_media", (req, res) => {
-    const baseImagesPath = path.join(
-        path.resolve(__dirname, ".."),
-        "frontend",
-        "public",
-        "images"
-    );
+    const baseImagesPath = path.join(path.resolve(__dirname, ".."), "frontend", "public", "images");
 
-    const baseVideosPath = path.join(
-        path.resolve(__dirname, ".."),
-        "frontend",
-        "public",
-        "videos"
-    );
+    const baseVideosPath = path.join(path.resolve(__dirname, ".."), "frontend", "public", "videos");
 
     const imageTypes = ["edited-images", "generated-images", "variation-images"];
     const aiProviders = ["openai", "geminiai"];
-    const allowedImageExtensions = ['.png', '.jpeg', '.jpg', '.webp'];
-    const allowedVideoExtensions = ['.mp4', '.webm', '.mov', '.avi'];
+    const allowedImageExtensions = [".png", ".jpeg", ".jpg", ".webp"];
+    const allowedVideoExtensions = [".mp4", ".webm", ".mov", ".avi"];
     let allImageFiles = [];
     let allVideoFiles = [];
 
@@ -220,7 +247,7 @@ app.get("/api/get_saved_media", (req, res) => {
                                 createdAt,
                                 imageType: imageType,
                                 ai: aiProvider,
-                                path: `/images/${imageType}/${aiProvider}/${file}`
+                                path: `/images/${imageType}/${aiProvider}/${file}`,
                             };
                         });
 
@@ -258,7 +285,7 @@ app.get("/api/get_saved_media", (req, res) => {
                             filename: file,
                             createdAt,
                             ai: aiProvider,
-                            path: `/videos/${aiProvider}/${file}`
+                            path: `/videos/${aiProvider}/${file}`,
                         };
                     });
 

@@ -11,6 +11,9 @@ const GenerateVideo = () => {
     // openai
     const [videoId, setVideoId] = useState(null);
     const [seconds, setSeconds] = useState(4);
+    const [videoSize, setVideoSize] = useState("1280x720");
+
+    // openai: (fe states)
     const [videoStatus, setVideoStatus] = useState(null);
     const [videoProgress, setVideoProgress] = useState(0);
     const [isGenerating, setIsGenerating] = useState(false);
@@ -18,7 +21,7 @@ const GenerateVideo = () => {
     const [error, setError] = useState(null);
 
     // openai remix
-    const [remixPrompt, setRemixPrompt] = useState(null);
+    const [remixPrompt, setRemixPrompt] = useState("");
     const [allVideos, setAllVideos] = useState(null);
 
     const pollingIntervalRef = useRef(null);
@@ -36,8 +39,23 @@ const GenerateVideo = () => {
         try {
             const res = await fetch("http://localhost:4000/api/list-videos");
             const data = await res.json();
-            console.log("data", data);
+            console.log("data listVideosOpenAI:", data);
             setAllVideos(data.data);
+        } catch (error) {
+            console.log("error", error);
+        }
+    };
+    const deleteVideo = async (videoId) => {
+        const formData = new FormData();
+        formData.append("videoId", videoId);
+
+        try {
+            const res = await fetch("http://localhost:4000/api/delete-video", { method: "POST", body: formData });
+            const data = await res.json();
+            console.log("data deleteVideo:", data);
+
+            const deletedId = data.data.id;
+            setAllVideos((prev) => (prev ? prev.filter((video) => video.id !== deletedId) : prev));
         } catch (error) {
             console.log("error", error);
         }
@@ -113,6 +131,7 @@ const GenerateVideo = () => {
         }
         formData.append("aiModel", aiModel);
         formData.append("seconds", seconds);
+        formData.append("size", videoSize);
         if (remixPrompt) {
             formData.append("remixPrompt", remixPrompt);
         }
@@ -123,6 +142,15 @@ const GenerateVideo = () => {
         try {
             const res = await fetch("http://localhost:4000/api/generate-video", { method: "POST", body: formData });
             const data = await res.json();
+
+            if (data.data?.error) {
+                setError(data.data?.error.message);
+                setIsGenerating(false);
+                setTimeout(() => {
+                    document.getElementById("error-msg").scrollIntoView({ behavior: "smooth", block: "start" });
+                }, 1000);
+                return;
+            }
 
             if (data.data) {
                 const videoInfo = data.data;
@@ -154,7 +182,6 @@ const GenerateVideo = () => {
             setIsGenerating(false);
         }
     };
-
 
     return (
         <section>
@@ -238,12 +265,25 @@ const GenerateVideo = () => {
                             </select>
                         </label>
                     </div>
+                    <div className="form_el">
+                        <label>
+                            <select
+                                name="videoSize"
+                                id="videoSize"
+                                value={videoSize}
+                                onChange={(e) => setVideoSize(e.target.value)}>
+                                <option value="720x1280">720x1280</option>
+                                <option value="1280x720">1280x720 (default)</option>
+                                <option value="1024x1792">1024x1792</option>
+                                <option value="1792x1024">1792x1024</option>
+                            </select>
+                        </label>
+                    </div>
                     <div>
                         <button
-                            onClick={generateVideoOpenAI}
+                            onClick={() => generateVideoOpenAI(null)}
                             className="btn-primary"
-                            disabled={isGenerating}
-                        >
+                            disabled={isGenerating}>
                             {isGenerating ? "Generating..." : "Generate Video with OpenAI"}
                         </button>
                     </div>
@@ -266,52 +306,85 @@ const GenerateVideo = () => {
                                 {allVideos.map((video) => (
                                     <li key={video.id}>
                                         <p>{video.prompt}</p>
-                                        <video src={`/videos/openai/${video.id}.mp4`} controls style={{ width: "100%", height: "auto" }} />
-                                        <button onClick={() => generateVideoOpenAI(video.id)} className="btn-primary" disabled={isGenerating || !remixPrompt}>Remix Video OpenAI</button>
+                                        {video?.error?.message ? (
+                                            <p>{video?.error?.message}</p>
+                                        ) : (
+                                            <>
+                                                <video
+                                                    src={`/videos/openai/${video.id}.mp4`}
+                                                    controls
+                                                    style={{ width: "100%", height: "auto" }}
+                                                />
+                                                <button
+                                                    onClick={() => generateVideoOpenAI(video.id)}
+                                                    className="btn-primary"
+                                                    disabled={isGenerating || !remixPrompt}>
+                                                    Remix Video OpenAI
+                                                </button>
+                                            </>
+                                        )}
+                                        <button onClick={() => deleteVideo(video.id)} className="btn-primary">
+                                            Delete the video
+                                        </button>
                                     </li>
                                 ))}
                             </ul>
-
                         </div>
-                    ) : <button onClick={listVideosOpenAI} className="btn-primary">List Videos OpenAI</button>}
+                    ) : (
+                        <button onClick={listVideosOpenAI} className="btn-primary">
+                            List Videos OpenAI
+                        </button>
+                    )}
 
                     {videoStatus && (
                         <div className="form_el" style={{ marginTop: "20px" }}>
-                            <p><strong>Status:</strong> {videoStatus}</p>
+                            <p>
+                                <strong>Status:</strong> {videoStatus}
+                            </p>
                             {videoProgress > 0 && (
                                 <div>
-                                    <p><strong>Progress:</strong> {videoProgress.toFixed(1)}%</p>
-                                    <div style={{
-                                        width: "100%",
-                                        height: "20px",
-                                        backgroundColor: "#f0f0f0",
-                                        borderRadius: "4px",
-                                        overflow: "hidden"
-                                    }}>
-                                        <div style={{
-                                            width: `${videoProgress}%`,
-                                            height: "100%",
-                                            backgroundColor: videoStatus === "failed" ? "#ff4444" : "#4CAF50",
-                                            transition: "width 0.3s ease"
-                                        }}></div>
+                                    <p>
+                                        <strong>Progress:</strong> {videoProgress.toFixed(1)}%
+                                    </p>
+                                    <div
+                                        style={{
+                                            width: "100%",
+                                            height: "20px",
+                                            backgroundColor: "#f0f0f0",
+                                            borderRadius: "4px",
+                                            overflow: "hidden",
+                                        }}>
+                                        <div
+                                            style={{
+                                                width: `${videoProgress}%`,
+                                                height: "100%",
+                                                backgroundColor: videoStatus === "failed" ? "#ff4444" : "#4CAF50",
+                                                transition: "width 0.3s ease",
+                                            }}></div>
                                     </div>
                                 </div>
                             )}
                             {videoId && (
-                                <p><strong>Video ID:</strong> {videoId}</p>
+                                <p>
+                                    <strong>Video ID:</strong> {videoId}
+                                </p>
                             )}
                         </div>
                     )}
 
                     {error && (
-                        <div className="form_el" style={{ marginTop: "20px", color: "#ff4444" }}>
-                            <p><strong>Error:</strong> {error}</p>
+                        <div id="error-msg" className="form_el" style={{ marginTop: "20px", color: "#ff4444" }}>
+                            <p>
+                                <strong>Error:</strong> {error}
+                            </p>
                         </div>
                     )}
 
                     {videoData && videoStatus === "completed" && (
                         <div className="form_el" style={{ marginTop: "20px" }}>
-                            <p><strong>Video completed successfully!</strong></p>
+                            <p>
+                                <strong>Video completed successfully!</strong>
+                            </p>
                             <p>Size: {videoData.size}</p>
                             <p>Duration: {videoData.seconds} seconds</p>
                             <p>Model: {videoData.model}</p>
