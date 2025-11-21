@@ -196,6 +196,7 @@ const GenerateImage = () => {
                                 value={aiModel}
                                 onChange={(e) => setAiModel(e.target.value)}>
                                 <option value="">Select model</option>
+                                <option value="gemini-3-pro-image-preview">gemini-3-pro-image-preview</option>
                                 <option value="gemini-2.5-flash-image">gemini-2.5-flash-image</option>
                                 <option value="imagen-4.0-generate-001">imagen-4.0-generate-001</option>
                                 <option value="imagen-3.0-generate-002">imagen-3.0-generate-002</option>

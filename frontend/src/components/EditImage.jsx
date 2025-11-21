@@ -212,6 +212,7 @@ const EditImage = () => {
                                 value={aiModel}
                                 onChange={(e) => setAiModel(e.target.value)}>
                                 <option value="">Select model</option>
+                                <option value="gemini-3-pro-image-preview">gemini-3-pro-image-preview</option>
                                 <option value="gemini-2.5-flash-image">gemini-2.5-flash-image</option>
                                 <option value="imagen-3.0-capability-001">imagen-3.0-capability-001</option>
                                 {/* todo: the below do not work with the current setup */}

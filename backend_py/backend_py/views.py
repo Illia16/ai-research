@@ -82,12 +82,13 @@ def generateImage(request):
 
     saved_paths = []
 
-    if modelName == "gemini-2.5-flash-image":
+    if modelName == "gemini-2.5-flash-image" or modelName == "gemini-3-pro-image-preview":
         client = genai.Client(api_key=GEMINI_API_KEY)
         response = client.models.generate_content(
             model=modelName,
             contents=[text],
             config=types.GenerateContentConfig(
+                tools=[{"google_search": {}}] if "gemini-3-pro-image-preview" in modelName else None,
                 response_modalities=['Text', 'Image']
             )
         )
@@ -152,18 +153,18 @@ def editImage(request):
     fileName += f"___{uniqueId}"
     saved_paths = []
 
-    if modelName == "gemini-2.5-flash-image":
-        client = genai.Client(api_key=GEMINI_API_KEY)
+    if modelName == "gemini-2.5-flash-image" or modelName == "gemini-3-pro-image-preview":
+        client = genai.Client(api_key=GEMINI_API_KEY, http_options={'api_version': 'v1alpha'})
         response = client.models.generate_content(
             model=modelName,
             contents=[
                 types.Part.from_text(text=text),
-                types.Part.from_bytes(data=image_bytes, mime_type="image/png"),
+                types.Part.from_bytes(data=image_bytes, mime_type="image/png", media_resolution=types.MediaResolution.MEDIA_RESOLUTION_HIGH),
                 *(
                     [types.Part.from_bytes(data=image_fileSecond_bytes, mime_type="image/png")]
                     if image_fileSecond_bytes else []
-                ),
-            ]
+                )
+            ],
         )
         print(response)
 
