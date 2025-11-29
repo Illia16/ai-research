@@ -96,13 +96,26 @@ def generateImage(request):
         )
         print(response)
 
+        prompt_text = text  # Default to original prompt
         for part in response.parts:
             if part.text is not None:
-                save_prompt(fileName, part.text or text, "geminiai", "generated-images")
+                prompt_text = part.text or text
             elif part.inline_data is not None:
                 image = part.as_image()
                 image.save(f"{output_dir / fileName}.png")
                 saved_paths.append(f"/images/generated-images/geminiai/{fileName}.png")
+                # Save prompt when image is actually saved
+                save_prompt(
+                    fileName,
+                    prompt_text,
+                    "geminiai",
+                    "generated-images",
+                    {
+                        "aiModel": modelName,
+                        "imageType": "generated-images",
+                        "ai": "geminiai",
+                    }
+                )
     else:
         client = genai.Client(vertexai=True, project=PROJECT_ID, location="us-central1");
         # Generate Image using other models
@@ -122,7 +135,17 @@ def generateImage(request):
             with open(fileImg, "wb") as f:
                 f.write(img.image.image_bytes)
 
-            save_prompt(fileName + f"__{i}", img.enhanced_prompt or text, "geminiai", "generated-images")
+            save_prompt(
+                fileName + f"__{i}",
+                img.enhanced_prompt or text,
+                "geminiai",
+                "generated-images",
+                {
+                    "aiModel": modelName,
+                    "imageType": "generated-images",
+                    "ai": "geminiai",
+                }
+            )
             print(f"Created output image {i} using {len(img.image.image_bytes)} bytes")
             saved_paths.append(f"/images/generated-images/geminiai/{fileName}__{i}.png")
 
@@ -176,13 +199,26 @@ def editImage(request):
         )
         print(response)
 
+        prompt_text = text  # Default to original prompt
         for part in response.parts:
             if part.text is not None:
-                save_prompt(fileName, part.text or text, "geminiai", "edited-images")
+                prompt_text = part.text or text
             elif part.inline_data is not None:
                 image = part.as_image()
                 image.save(f"{output_dir / fileName}.png")
                 saved_paths.append(f"/images/edited-images/geminiai/{fileName}.png")
+                # Save prompt when image is actually saved
+                save_prompt(
+                    fileName,
+                    prompt_text,
+                    "geminiai",
+                    "edited-images",
+                    {
+                        "aiModel": modelName,
+                        "imageType": "edited-images",
+                        "ai": "geminiai",
+                    }
+                )
     else:
         client = genai.Client(vertexai=True, project=PROJECT_ID, location="us-central1");
         # Edit Image
@@ -212,7 +248,17 @@ def editImage(request):
             with open(fileImg, "wb") as f:
                 f.write(img.image.image_bytes)
 
-            save_prompt(fileName + f"__{i}", img.enhanced_prompt or text, "geminiai", "edited-images")
+            save_prompt(
+                fileName + f"__{i}",
+                img.enhanced_prompt or text,
+                "geminiai",
+                "edited-images",
+                {
+                    "aiModel": modelName,
+                    "imageType": "edited-images",
+                    "ai": "geminiai",
+                }
+            )
             print(f"Created output image {i} using {len(img.image.image_bytes)} bytes")
 
             saved_paths.append(f"/images/edited-images/geminiai/{fileName}__{i}.png")
