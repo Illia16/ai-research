@@ -17,6 +17,9 @@ const GenerateImage = () => {
 
     const [imageGeminiAI, setImageGeminiAI] = useState(""); // tbd: geminiai: not using since GeminiAI does not return base64 nor url.
 
+    // geminiai
+    const [resolution, setResolution] = useState("");
+
     const generateImageOpenAI = async () => {
         try {
             await fetch("http://localhost:4000/api/generate-image", {
@@ -53,7 +56,7 @@ const GenerateImage = () => {
         try {
             await fetch("http://127.0.0.1:4010/api/generate-image", {
                 method: "POST",
-                body: JSON.stringify({ prompt: imagePrompt, modelName: aiModel, numberOfImages }),
+                body: JSON.stringify({ prompt: imagePrompt, modelName: aiModel, numberOfImages, resolution }),
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -201,6 +204,20 @@ const GenerateImage = () => {
                                 <option value="imagen-4.0-generate-001">imagen-4.0-generate-001</option>
                                 <option value="imagen-3.0-generate-002">imagen-3.0-generate-002</option>
                                 <option value="imagen-3.0-generate-001">imagen-3.0-generate-001</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div className="form_el">
+                        <label>
+                            <select
+                                name="resolution"
+                                id="resolution"
+                                value={resolution}
+                                onChange={(e) => setResolution(e.target.value)}>
+                                <option value="">Select resolution</option>
+                                <option value="1K">1K</option>
+                                <option value="2K">2K</option>
+                                <option value="4K">4K</option>
                             </select>
                         </label>
                     </div>

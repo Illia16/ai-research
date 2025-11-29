@@ -14,6 +14,9 @@ const EditImage = () => {
     const [imageBackground, setImageBackground] = useState("auto");
     const [input_fidelity, setInputFidelity] = useState("low");
 
+    // geminiai
+    const [resolution, setResolution] = useState("");
+
     const editImageOpenAI = async () => {
         if (!image || !imageEditPrompt) return;
 
@@ -53,6 +56,7 @@ const EditImage = () => {
         formData.append("prompt", imageEditPrompt);
         formData.append("modelName", aiModel);
         formData.append("numberOfImages", numberOfImages);
+        resolution && formData.append("resolution", resolution);
 
         try {
             await fetch("http://127.0.0.1:4010/api/edit-image", { method: "POST", body: formData })
@@ -219,6 +223,21 @@ const EditImage = () => {
                                 {/* <option value="imagen-3.0-capability-002">imagen-3.0-capability-002</option> */}
                                 {/* <option value="imagegeneration@006">imagegeneration@006</option> */}
                                 {/* <option value="imagegeneration@002">imagegeneration@002</option> */}
+                            </select>
+                        </label>
+                    </div>
+
+                    <div className="form_el">
+                        <label>
+                            <select
+                                name="resolution"
+                                id="resolution"
+                                value={resolution}
+                                onChange={(e) => setResolution(e.target.value)}>
+                                <option value="">Select resolution</option>
+                                <option value="1K">1K</option>
+                                <option value="2K">2K</option>
+                                <option value="4K">4K</option>
                             </select>
                         </label>
                     </div>

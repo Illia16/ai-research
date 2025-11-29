@@ -67,6 +67,7 @@ def generateImage(request):
     text = data.get('prompt', None)
     modelName = data.get('modelName', None)
     number_of_images = data.get('numberOfImages', None)
+    resolution = data.get('resolution', '1K') # "1K", "2K", "4K"
     uniqueId = str(uuid.uuid4())
 
     dirrProject = Path(settings.BASE_DIR_PROJECT)
@@ -89,7 +90,8 @@ def generateImage(request):
             contents=[text],
             config=types.GenerateContentConfig(
                 tools=[{"google_search": {}}] if "gemini-3-pro-image-preview" in modelName else None,
-                response_modalities=['Text', 'Image']
+                response_modalities=['TEXT', 'IMAGE'],
+                image_config={'image_size': resolution} if "gemini-3-pro-image-preview" in modelName else None,
             )
         )
         print(response)
@@ -135,6 +137,7 @@ def editImage(request):
     text = request.POST.get('prompt')
     modelName = request.POST.get('modelName')
     number_of_images = request.POST.get('numberOfImages', None)
+    resolution = request.POST.get('resolution', '1K') # "1K", "2K", "4K"
 
     print(f"Uploaded image size: {len(image_bytes)} bytes")
     print(f"text: {text}")
@@ -165,6 +168,11 @@ def editImage(request):
                     if image_fileSecond_bytes else []
                 )
             ],
+            config=types.GenerateContentConfig(
+                tools=[{"google_search": {}}] if "gemini-3-pro-image-preview" in modelName else None,
+                response_modalities=['TEXT', 'IMAGE'],
+                image_config={'image_size': resolution} if "gemini-3-pro-image-preview" in modelName else None,
+            ),
         )
         print(response)
 
