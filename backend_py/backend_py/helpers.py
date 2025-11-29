@@ -1,5 +1,6 @@
 import json
 import os
+from pathlib import Path
 
 react_component_names = [
     "Header",
@@ -15,14 +16,16 @@ react_component_names = [
     "Footer",
 ]
 
-def save_prompt(revised_prompt_key, revised_prompt_val, parent_key, child_key):
+def save_prompt(revised_prompt_key, revised_prompt_val, parent_key, child_key, additional_data=None):
     # Read the existing JSON file
-    file_path = os.path.join(os.path.dirname(os.getcwd()), "backend", "prompts.json")
+    # Calculate project root: backend_py/backend_py/helpers.py -> backend_py -> project root -> backend/prompts.json
+    project_root = Path(__file__).resolve().parent.parent.parent
+    file_path = project_root / "backend" / "prompts.json"
     data = {}
 
     # Read the JSON file
     try:
-        with open(file_path, "r", encoding="utf-8") as file:
+        with open(str(file_path), "r", encoding="utf-8") as file:
             data = json.load(file)
     except FileNotFoundError:
         print(f"Error: {file_path} not found.")
@@ -34,17 +37,30 @@ def save_prompt(revised_prompt_key, revised_prompt_val, parent_key, child_key):
         print(f"Error reading file: {error}")
         return
 
-    # Update it
-    if parent_key in data and child_key in data[parent_key]:
-        data[parent_key][child_key][revised_prompt_key] = revised_prompt_val
+    # Ensure parent key exists
+    if parent_key not in data:
+        data[parent_key] = {}
+
+    # Ensure child key exists
+    if child_key not in data[parent_key]:
+        data[parent_key][child_key] = {}
+
+    # If additional_data is provided (for images), create an object structure
+    # Otherwise, revised_prompt_val is already an object (for videos)
+    if additional_data:
+        # For images: save as object with prompt and additional metadata
+        data[parent_key][child_key][revised_prompt_key] = {
+            "prompt": revised_prompt_val,
+            **additional_data,
+        }
     else:
-        print("Error: Specified parent or child key does not exist.")
-        return
+        # For videos: revised_prompt_val is already an object
+        data[parent_key][child_key][revised_prompt_key] = revised_prompt_val
 
     # Write the updated data back to the JSON file
     try:
-        with open(file_path, "w", encoding="utf-8") as file:
+        with open(str(file_path), "w", encoding="utf-8") as file:
             json.dump(data, file, indent=4)
-        print("JSON file updated successfully.")
+        print(f"JSON file updated successfully: {file_path}")
     except Exception as error:
         print(f"Error writing to JSON file: {error}")

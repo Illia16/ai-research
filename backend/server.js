@@ -216,8 +216,22 @@ app.get("/api/get_saved_media", (req, res) => {
     const aiProviders = ["openai", "geminiai"];
     const allowedImageExtensions = [".png", ".jpeg", ".jpg", ".webp"];
     const allowedVideoExtensions = [".mp4", ".webm", ".mov", ".avi"];
-    let allImageFiles = [];
-    let allVideoFiles = [];
+
+    // Initialize the new structure
+    const aiData = {
+        openai: {
+            "generated-images": {},
+            "edited-images": {},
+            "variation-images": {},
+            "generated-videos": {},
+        },
+        geminiai: {
+            "generated-images": {},
+            "edited-images": {},
+            "variation-images": {},
+            "generated-videos": {},
+        },
+    };
 
     // Read images from all three directories and both AI providers
     imageTypes.forEach((imageType) => {
@@ -228,12 +242,9 @@ app.get("/api/get_saved_media", (req, res) => {
                 try {
                     const files = fs.readdirSync(imageFolderPath);
 
-                    const imageFiles = files
-                        .filter((file) => {
-                            const ext = path.extname(file).toLowerCase();
-                            return allowedImageExtensions.includes(ext);
-                        })
-                        .map((file) => {
+                    files.forEach((file) => {
+                        const ext = path.extname(file).toLowerCase();
+                        if (allowedImageExtensions.includes(ext)) {
                             const filePath = path.join(imageFolderPath, file);
                             let createdAt = null;
                             try {
@@ -242,16 +253,31 @@ app.get("/api/get_saved_media", (req, res) => {
                             } catch (err) {
                                 createdAt = null;
                             }
-                            return {
-                                filename: file,
-                                createdAt,
+
+                            // Get filename without extension for prompt lookup
+                            const filenameWithoutExt = path.basename(file, ext);
+
+                            // Get prompt data from imagePromts (object format)
+                            const promptData = imagePromts?.[aiProvider]?.[imageType]?.[filenameWithoutExt] || null;
+
+                            // Extract prompt and aiModel from promptData
+                            const prompt = promptData?.prompt || null;
+                            const aiModel = promptData?.aiModel || null;
+
+                            // Format createdAt as ISO string
+                            const createdAtISO = createdAt ? createdAt.toISOString() : null;
+
+                            // Create the entry
+                            aiData[aiProvider][imageType][filenameWithoutExt] = {
+                                prompt: prompt,
+                                createdAt: createdAtISO,
                                 imageType: imageType,
                                 ai: aiProvider,
+                                aiModel: aiModel,
                                 path: `/images/${imageType}/${aiProvider}/${file}`,
                             };
-                        });
-
-                    allImageFiles = allImageFiles.concat(imageFiles);
+                        }
+                    });
                 } catch (err) {
                     console.error(`Error reading directory ${imageType}/${aiProvider}:`, err);
                 }
@@ -267,12 +293,9 @@ app.get("/api/get_saved_media", (req, res) => {
             try {
                 const files = fs.readdirSync(videoFolderPath);
 
-                const videoFiles = files
-                    .filter((file) => {
-                        const ext = path.extname(file).toLowerCase();
-                        return allowedVideoExtensions.includes(ext);
-                    })
-                    .map((file) => {
+                files.forEach((file) => {
+                    const ext = path.extname(file).toLowerCase();
+                    if (allowedVideoExtensions.includes(ext)) {
                         const filePath = path.join(videoFolderPath, file);
                         let createdAt = null;
                         try {
@@ -281,33 +304,41 @@ app.get("/api/get_saved_media", (req, res) => {
                         } catch (err) {
                             createdAt = null;
                         }
-                        return {
-                            filename: file,
-                            createdAt,
+
+                        // Get filename without extension for video data lookup
+                        const filenameWithoutExt = path.basename(file, ext);
+
+                        // Format createdAt as ISO string
+                        const createdAtISO = createdAt ? createdAt.toISOString() : null;
+
+                        // Get video data from imagePromts (for OpenAI videos)
+                        const videoData = imagePromts?.[aiProvider]?.["generated-videos"]?.[filenameWithoutExt] || null;
+
+                        // Create the entry
+                        const videoEntry = {
+                            createdAt: createdAtISO,
                             ai: aiProvider,
                             path: `/videos/${aiProvider}/${file}`,
                         };
-                    });
 
-                allVideoFiles = allVideoFiles.concat(videoFiles);
+                        // Add OpenAI-specific data if available
+                        if (aiProvider === "openai" && videoData) {
+                            videoEntry.openaiData = videoData;
+                        } else if (aiProvider === "geminiai" && videoData) {
+                            // For Gemini, you might want to add similar structure
+                            videoEntry.geminiaiData = videoData;
+                        }
+
+                        aiData[aiProvider]["generated-videos"][filenameWithoutExt] = videoEntry;
+                    }
+                });
             } catch (err) {
                 console.error(`Error reading directory videos/${aiProvider}:`, err);
             }
         }
     });
 
-    // Sort from newest to oldest by creation date
-    allImageFiles.sort((a, b) => {
-        if (!a.createdAt || !b.createdAt) return 0;
-        return b.createdAt - a.createdAt;
-    });
-
-    allVideoFiles.sort((a, b) => {
-        if (!a.createdAt || !b.createdAt) return 0;
-        return b.createdAt - a.createdAt;
-    });
-
-    res.json({ success: true, imageFiles: allImageFiles, videoFiles: allVideoFiles, imagePromts: imagePromts });
+    res.json({ success: true, ai_data: aiData });
 });
 
 // Start the server

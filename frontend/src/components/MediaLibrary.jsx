@@ -14,6 +14,70 @@ const MediaLibrary = () => {
     const [zoomedImage, setZoomedImage] = useState(null);
     const [zoomedVideo, setZoomedVideo] = useState(null);
 
+    // Helper function to convert ai_data structure to arrays
+    const convertAiDataToArrays = (aiData) => {
+        if (!aiData || !aiData.ai_data) {
+            return { imageFiles: [], videoFiles: [] };
+        }
+
+        const imageFiles = [];
+        const videoFiles = [];
+        const imageTypes = ["generated-images", "edited-images", "variation-images"];
+        const aiProviders = ["openai", "geminiai"];
+
+        // Convert images
+        imageTypes.forEach((imageType) => {
+            aiProviders.forEach((aiProvider) => {
+                const typeData = aiData.ai_data[aiProvider]?.[imageType] || {};
+                Object.keys(typeData).forEach((filenameWithoutExt) => {
+                    const item = typeData[filenameWithoutExt];
+                    // Extract filename from path
+                    const filename = item.path.split("/").pop();
+                    imageFiles.push({
+                        filename: filename,
+                        createdAt: item.createdAt,
+                        imageType: item.imageType,
+                        ai: item.ai,
+                        path: item.path,
+                        prompt: item.prompt,
+                        aiModel: item.aiModel,
+                    });
+                });
+            });
+        });
+
+        // Convert videos
+        aiProviders.forEach((aiProvider) => {
+            const videosData = aiData.ai_data[aiProvider]?.["generated-videos"] || {};
+            Object.keys(videosData).forEach((filenameWithoutExt) => {
+                const item = videosData[filenameWithoutExt];
+                // Extract filename from path
+                const filename = item.path.split("/").pop();
+                videoFiles.push({
+                    filename: filename,
+                    createdAt: item.createdAt,
+                    ai: item.ai,
+                    path: item.path,
+                    openaiData: item.openaiData,
+                    geminiaiData: item.geminiaiData,
+                });
+            });
+        });
+
+        // Sort from newest to oldest
+        imageFiles.sort((a, b) => {
+            if (!a.createdAt || !b.createdAt) return 0;
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+
+        videoFiles.sort((a, b) => {
+            if (!a.createdAt || !b.createdAt) return 0;
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+
+        return { imageFiles, videoFiles };
+    };
+
     const get_saved_media = async () => {
         try {
             await fetch("http://localhost:4000/api/get_saved_media")
@@ -72,8 +136,7 @@ const MediaLibrary = () => {
     // Filter images and videos based on selected filters
     const getFilteredItems = () => {
         const allFiltersUnchecked = Object.keys(filters).every((key) => !filters[key]);
-        const imageFiles = imgLibraryData.imageFiles || [];
-        const videoFiles = imgLibraryData.videoFiles || [];
+        const { imageFiles, videoFiles } = convertAiDataToArrays(imgLibraryData);
 
         if (allFiltersUnchecked) return { images: [], videos: [] };
 
@@ -117,12 +180,13 @@ const MediaLibrary = () => {
     };
 
     const { images: filteredImages, videos: filteredVideos } = getFilteredItems();
+    const { imageFiles, videoFiles } = convertAiDataToArrays(imgLibraryData);
     const totalItems = filteredImages.length + filteredVideos.length;
-    const totalAvailable = (imgLibraryData.imageFiles?.length || 0) + (imgLibraryData.videoFiles?.length || 0);
+    const totalAvailable = imageFiles.length + videoFiles.length;
 
     return (
         <>
-            {imgLibraryData.imageFiles || imgLibraryData.videoFiles ? (
+            {imgLibraryData.ai_data ? (
                 <div className="media-library-container">
                     <div className="media-library--all">
                         <h3>Media Library</h3>
@@ -215,14 +279,6 @@ const MediaLibrary = () => {
 
                         <ul className="media-library">
                             {filteredImages.map((img, index) => {
-                                // Get the correct key for prompt lookup based on imageType
-                                const promptKey = img.imageType;
-                                // Get filename without extension for prompt lookup
-                                const filenameWithoutExt = img.filename.split(".")[0];
-                                // Look up prompt using img.ai (the AI provider from the image) and the prompt key
-                                const imgPrompt =
-                                    imgLibraryData?.imagePromts?.[img.ai]?.[promptKey]?.[filenameWithoutExt];
-
                                 return (
                                     <li key={`media-library--${img.ai}___${index}`}>
                                         <img key={index} src={img.path} alt="" />
@@ -233,7 +289,8 @@ const MediaLibrary = () => {
                                                     ? new Date(img.createdAt).toLocaleString()
                                                     : "Unknown date"}
                                             </p>
-                                            {imgPrompt && <p>{imgPrompt}</p>}
+                                            {img.prompt && <p>{img.prompt}</p>}
+                                            {img.aiModel && <p>Model: {img.aiModel}</p>}
                                         </div>
                                         <div style={{ display: "flex", gap: "10px" }}>
                                             <button
@@ -269,16 +326,13 @@ const MediaLibrary = () => {
                                 );
                             })}
                             {filteredVideos.map((video, index) => {
-                                // Get filename without extension for prompt lookup (video ID)
-                                const filenameWithoutExt = video.filename.split(".")[0];
-                                // Look up video data using video.ai and "generated-videos" key
-                                const videoData =
-                                    imgLibraryData?.imagePromts?.[video.ai]?.["generated-videos"]?.[filenameWithoutExt];
+                                const videoData = video.openaiData || video.geminiaiData;
+                                const videoId = videoData?.id || `video-library-videos--${index}`;
 
                                 return (
                                     <li key={`video-library-videos--${video.ai}___${index}`}>
                                         <video
-                                            id={videoData?.id || `video-library-videos--${index}`}
+                                            id={videoId}
                                             key={index}
                                             src={video.path}
                                             controls
@@ -293,8 +347,8 @@ const MediaLibrary = () => {
                                             </p>
                                             {videoData && (
                                                 <>
-                                                    <p>{videoData.prompt}</p>
-                                                    <p>Model:{videoData.model}</p>
+                                                    {videoData.prompt && <p>{videoData.prompt}</p>}
+                                                    {videoData.model && <p>Model: {videoData.model}</p>}
                                                 </>
                                             )}
                                         </div>

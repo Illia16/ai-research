@@ -1,40 +1,196 @@
 {
     "openai": {
         "generated-images": {
-            "create_a_photo_of_me___4447311d-74e9-41d4-b72e-65925b2e1afb": "Generate an image of a 7-year-old child, of unspecified gender and descent, and their grandfather walking together on a wide, slightly uphill road. The road is encased in abundant and tall, vibrant sunflower fields, reaching a height of 2 to 2.5 meters. The scene should depict a sunny July day, highlighted by a clear sky and a palpable warm atmosphere. The grandfather is a distinguished-looking man in his 60s, standing 2 meters tall, striding along with the child who is around 1 meter tall. No trees are present in this sunlit landscape, only the endless sea of sunflower fields.",
-            "tf2_smismass___2360e46c-c1bc-4cae-bbaf-ba53d777b9fa": "tf2 smismass",
-            "tf2_halloween___d97e9d8a-8ab3-4d5f-927f-1308ae1c97d2": "tf2 halloween",
-            "beautifull_sunny_day_a_field___5d35d4b9-8b05-4803-a885-7ed6ca970c4a": "beautifull sunny day, a field of green grass like Windows XP wallpaper",
-            "beautifull_sunny_day_a_field___02033b34-b439-4dd6-be35-abc4b061f048": "beautifull sunny day, a field of green grass like Windows XP wallpaper",
-            "beautifull_sunny_day_a_field___1566282e-b188-4dd8-b793-263733f3b93f": "Imagine a beautiful sunny day with a clear blue sky. A field of tall, green grass stretches out beyond the horizon, gently swaying in a soft breeze. The unending sea of green is reminiscent of the iconic Windows XP wallpaper. The warm sunlight fills the scene, augmenting the vibrancy of the colors and adding an aura of tranquillity to the vista.",
-            "beautifull_sunny_day_a_field___84dc3024-dffa-4a55-a457-6893f31a53f4": "A delightful sunny day, with the sun high in the clear, azure sky. A vast field of bright, verdant grass stretches to the horizon, radiating tranquility. The scene is reminiscent of an iconic computer wallpaper, with the absence of any objects or obstructions across the field, it conveys serenity and peace, allowing one to imagine the rustling sound of the grass and the warmth of the sun on their skin.",
-            "beautifull_sunny_day_a_field___e7fa87da-e726-442e-b34b-0e70b782c74c": "beautifull sunny day, a field of green grass like Windows XP wallpaper",
-            "cossacks3_ai": "Cossacks 3 AI",
-            "22nd_century___b0b6cf06-e0fa-4d08-bed4-f0bef4d4eb08": "Envision a futuristic city in the 22nd century. The landscape showcases the harmonious blend of technology and nature, with skyscrapers glistening with holographic panels and rooftops teeming with greenery. Airborne vehicles are moving in synchronized patterns in the sky. In the midst of the city, diverse citizens of different descents and genders are interacting with advanced tech gadgets. Black, Hispanic, Caucasian, Middle-Eastern, South Asian individuals are visible, showcasing ethnic diversity. Some are engrossed in their transparent digital screens while others are using wearable tech watches and virtual reality glasses.",
-            "22nd_century___ead3c708-6ff2-41a3-a19f-ff494e50a7dc": "22nd century",
-            "alma_wade_from_fear___17557834-5057-49e5-a596-923d540a9d88": "Alma Wade from F.E.A.R.",
-            "alma_wade_from_fear___d7a0055e-fda5-4f90-8bcc-944f9803210b": "Alma Wade from F.E.A.R.",
-            "a_giant_fortress___b458cdea-88b2-45df-9c5c-6d234b8c874f": "A giant fortress",
-            "a_giant_fortress___90b14c0c-f51a-46ed-9e18-3185f36e241f": "A giant fortress"
+            "create_a_photo_of_me___4447311d-74e9-41d4-b72e-65925b2e1afb": {
+                "prompt": "Generate an image of a 7-year-old child, of unspecified gender and descent, and their grandfather walking together on a wide, slightly uphill road. The road is encased in abundant and tall, vibrant sunflower fields, reaching a height of 2 to 2.5 meters. The scene should depict a sunny July day, highlighted by a clear sky and a palpable warm atmosphere. The grandfather is a distinguished-looking man in his 60s, standing 2 meters tall, striding along with the child who is around 1 meter tall. No trees are present in this sunlit landscape, only the endless sea of sunflower fields.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "tf2_smismass___2360e46c-c1bc-4cae-bbaf-ba53d777b9fa": {
+                "prompt": "tf2 smismass",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "tf2_halloween___d97e9d8a-8ab3-4d5f-927f-1308ae1c97d2": {
+                "prompt": "tf2 halloween",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "beautifull_sunny_day_a_field___5d35d4b9-8b05-4803-a885-7ed6ca970c4a": {
+                "prompt": "beautifull sunny day, a field of green grass like Windows XP wallpaper",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "beautifull_sunny_day_a_field___02033b34-b439-4dd6-be35-abc4b061f048": {
+                "prompt": "beautifull sunny day, a field of green grass like Windows XP wallpaper",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "beautifull_sunny_day_a_field___1566282e-b188-4dd8-b793-263733f3b93f": {
+                "prompt": "Imagine a beautiful sunny day with a clear blue sky. A field of tall, green grass stretches out beyond the horizon, gently swaying in a soft breeze. The unending sea of green is reminiscent of the iconic Windows XP wallpaper. The warm sunlight fills the scene, augmenting the vibrancy of the colors and adding an aura of tranquillity to the vista.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "beautifull_sunny_day_a_field___84dc3024-dffa-4a55-a457-6893f31a53f4": {
+                "prompt": "A delightful sunny day, with the sun high in the clear, azure sky. A vast field of bright, verdant grass stretches to the horizon, radiating tranquility. The scene is reminiscent of an iconic computer wallpaper, with the absence of any objects or obstructions across the field, it conveys serenity and peace, allowing one to imagine the rustling sound of the grass and the warmth of the sun on their skin.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "beautifull_sunny_day_a_field___e7fa87da-e726-442e-b34b-0e70b782c74c": {
+                "prompt": "beautifull sunny day, a field of green grass like Windows XP wallpaper",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "cossacks3_ai": {
+                "prompt": "Cossacks 3 AI",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "22nd_century___b0b6cf06-e0fa-4d08-bed4-f0bef4d4eb08": {
+                "prompt": "Envision a futuristic city in the 22nd century. The landscape showcases the harmonious blend of technology and nature, with skyscrapers glistening with holographic panels and rooftops teeming with greenery. Airborne vehicles are moving in synchronized patterns in the sky. In the midst of the city, diverse citizens of different descents and genders are interacting with advanced tech gadgets. Black, Hispanic, Caucasian, Middle-Eastern, South Asian individuals are visible, showcasing ethnic diversity. Some are engrossed in their transparent digital screens while others are using wearable tech watches and virtual reality glasses.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "22nd_century___ead3c708-6ff2-41a3-a19f-ff494e50a7dc": {
+                "prompt": "22nd century",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "alma_wade_from_fear___17557834-5057-49e5-a596-923d540a9d88": {
+                "prompt": "Alma Wade from F.E.A.R.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "alma_wade_from_fear___d7a0055e-fda5-4f90-8bcc-944f9803210b": {
+                "prompt": "Alma Wade from F.E.A.R.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "a_giant_fortress___b458cdea-88b2-45df-9c5c-6d234b8c874f": {
+                "prompt": "A giant fortress",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "a_giant_fortress___90b14c0c-f51a-46ed-9e18-3185f36e241f": {
+                "prompt": "A giant fortress",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "openai"
+            },
+            "dancing_chicken___ff8e1c7a-4ef9-42af-8113-23c3f1464f83": {
+                "prompt": "Dancing chicken",
+                "aiModel": "gpt-image-1",
+                "imageType": "generated-images",
+                "ai": "openai"
+            }
         },
         "edited-images": {
-            "put_starry_sky_with_milky___caa5cce5-23ee-4baf-abb3-3a2378f0e7b9": "Put starry sky with Milky Way galaxy.",
-            "add_more_buildings___d471f674-51c3-481c-84f1-0c36f54be59e": "add more buildings",
-            "add_more_buildings___5c20248f-0e95-4cbb-a8cf-5c7cb8c49b2f": "add more buildings",
-            "add_more_buildings___f9396f70-4ac0-4416-aeba-50e666d72fb4": "add more buildings",
-            "add_rainfall___28a505cd-0dc7-4d33-ad8d-c4595ddde032": "add rainfall",
-            "combine_these_together___d7f1b87c-e33a-414e-9f03-04c2d49b1412": "combine these together",
-            "add_sailing_boats_on_the___09cd8f6b-ae40-4331-9e20-e0310bc0cdf5": "add sailing boats on the water",
-            "add_sailing_boats_on_the___44a2001a-2147-4a63-9b93-23b5af192d6e": "add sailing boats on the water"
+            "put_starry_sky_with_milky___caa5cce5-23ee-4baf-abb3-3a2378f0e7b9": {
+                "prompt": "Put starry sky with Milky Way galaxy.",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "openai"
+            },
+            "add_more_buildings___d471f674-51c3-481c-84f1-0c36f54be59e": {
+                "prompt": "add more buildings",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "openai"
+            },
+            "add_more_buildings___5c20248f-0e95-4cbb-a8cf-5c7cb8c49b2f": {
+                "prompt": "add more buildings",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "openai"
+            },
+            "add_more_buildings___f9396f70-4ac0-4416-aeba-50e666d72fb4": {
+                "prompt": "add more buildings",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "openai"
+            },
+            "add_rainfall___28a505cd-0dc7-4d33-ad8d-c4595ddde032": {
+                "prompt": "add rainfall",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "openai"
+            },
+            "combine_these_together___d7f1b87c-e33a-414e-9f03-04c2d49b1412": {
+                "prompt": "combine these together",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "openai"
+            },
+            "add_sailing_boats_on_the___09cd8f6b-ae40-4331-9e20-e0310bc0cdf5": {
+                "prompt": "add sailing boats on the water",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "openai"
+            },
+            "add_sailing_boats_on_the___44a2001a-2147-4a63-9b93-23b5af192d6e": {
+                "prompt": "add sailing boats on the water",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "openai"
+            }
         },
         "variation-images": {
-            "taipeipng___18c87f0d-9b8a-4817-8526-a9edfdffa7c3": "This is Taipei city.",
-            "valleypng___9eb7f053-2b63-4a78-bc52-b8712da23134": "This is valley",
-            "me_grandpa_123__copypng___69e2012d-51f8-48b8-b83e-eb23ff096d02": "me_grandpa_123 - Copy.png",
-            "___redwall_abbey_during_summer___eeb6d02de5524d8782f4b29aa0cdc650png___b6db847f-8e42-4dde-a8ac-2240c6c6df28": "___redwall_abbey_during_summer___eeb6d02d-e552-4d87-82f4-b29aa0cdc650.png",
-            "cossacks3aipng___670f38a5-5e09-477f-a22c-32955ad72e08": "cossacks3-ai.png",
-            "cossacks3aipng___e7223dc7-67c7-454f-94ee-b9d79a277745": "cossacks3-ai.png",
-            "cossacks3aipng___7b61a24c-9402-478d-ab07-21bc8975c072": "cossacks3-ai.png"
+            "taipeipng___18c87f0d-9b8a-4817-8526-a9edfdffa7c3": {
+                "prompt": "This is Taipei city.",
+                "aiModel": null,
+                "imageType": "variation-images",
+                "ai": "openai"
+            },
+            "valleypng___9eb7f053-2b63-4a78-bc52-b8712da23134": {
+                "prompt": "This is valley",
+                "aiModel": null,
+                "imageType": "variation-images",
+                "ai": "openai"
+            },
+            "me_grandpa_123__copypng___69e2012d-51f8-48b8-b83e-eb23ff096d02": {
+                "prompt": "me_grandpa_123 - Copy.png",
+                "aiModel": null,
+                "imageType": "variation-images",
+                "ai": "openai"
+            },
+            "___redwall_abbey_during_summer___eeb6d02de5524d8782f4b29aa0cdc650png___b6db847f-8e42-4dde-a8ac-2240c6c6df28": {
+                "prompt": "___redwall_abbey_during_summer___eeb6d02d-e552-4d87-82f4-b29aa0cdc650.png",
+                "aiModel": null,
+                "imageType": "variation-images",
+                "ai": "openai"
+            },
+            "cossacks3aipng___670f38a5-5e09-477f-a22c-32955ad72e08": {
+                "prompt": "cossacks3-ai.png",
+                "aiModel": null,
+                "imageType": "variation-images",
+                "ai": "openai"
+            },
+            "cossacks3aipng___e7223dc7-67c7-454f-94ee-b9d79a277745": {
+                "prompt": "cossacks3-ai.png",
+                "aiModel": null,
+                "imageType": "variation-images",
+                "ai": "openai"
+            },
+            "cossacks3aipng___7b61a24c-9402-478d-ab07-21bc8975c072": {
+                "prompt": "cossacks3-ai.png",
+                "aiModel": null,
+                "imageType": "variation-images",
+                "ai": "openai"
+            }
         },
         "generated-videos": {
             "video_691d26c58e048198bb26ca75c9eb781b053c21fe024fb054": {
@@ -189,49 +345,250 @@
                 "remixed_from_video_id": null,
                 "seconds": "8",
                 "size": "1280x720"
+            },
+            "video_6925237c96b48190b28f3978b2a574590ecdc5acd30872b1": {
+                "id": "video_6925237c96b48190b28f3978b2a574590ecdc5acd30872b1",
+                "object": "video",
+                "created_at": 1764041596,
+                "status": "completed",
+                "completed_at": 1764041668,
+                "error": null,
+                "expires_at": 1764045268,
+                "model": "sora-2",
+                "progress": 100,
+                "prompt": "A huge city underground (handwrawn style)",
+                "remixed_from_video_id": null,
+                "seconds": "4",
+                "size": "1280x720"
             }
         }
     },
     "geminiai": {
         "generated-images": {
-            "toronto_in_22nd_century": "Toronto in 22nd century.",
-            "life_on_moon_with_oceans,___a96b5b8d-6718-404d-b4bb-610f35e5486e": "Life on moon with oceans.",
-            "sunset___8fee8d62-4e20-4d7f-aa08-27099580b342": "Sunset",
-            "redwall_abbey_during_summer___eeb6d02d-e552-4d87-82f4-b29aa0cdc650": "Redwall abbey during summer",
-            "a_young_asian_doctor_offering___45b15f8b-8e23-45f6-a8bf-a36315f5dfcb": "A young Asian doctor offering a comforting hand to a patient, symbolizing understanding and empathic care",
-            "cossacks_3_game___fc961b78-f391-43b4-a7b3-3ec0b87d59f6": "Cossacks 3 game",
-            "cossacks_3_game___963579c0-9d75-4005-978d-00afbe181b07": "Cossacks 3 game",
-            "cossacks_3_game___e6235a23-9077-4419-bf56-db7b4f1e028c": "Cossacks 3 game",
-            "lion_with_rose_boquete___da8d75f3-5d9a-4849-a192-c666c3758de5": "A majestic male lion, with a full, flowing mane in shades of gold and amber, holds a bouquet of vibrant red roses in its mouth. The roses are arranged loosely, with some greenery interspersed, and a few petals drift near its paws. The lion is seated in a sun-drenched, overgrown garden, with soft, diffused light filtering through dappled leaves in the background. Its eyes are a piercing amber, and its expression is gentle yet regal. The image is captured at eye level with a shallow depth of field, rendering the background slightly out of focus to keep the lion and roses as the primary subject.",
-            "kids_jumping_into_snowdrifts_having___352ce528-1d7b-4336-b5ae-0625429d302b": "Joyful children are mid-air, leaping into deep, powdery snowdrifts. The scene is set in a vibrant winter wonderland with snow-covered pine trees in the background under a soft, overcast sky. Two children, bundled in colorful winter gear\u2014one in a bright red jacket and blue snow pants, the other in a yellow jacket and green snow pants\u2014are captured at the peak of their jump, arms outstretched and faces beaming with laughter. Snow is exploding around them from their impact, catching the subtle light. The perspective is slightly low-angle, emphasizing the height of their jump and the depth of the snow.",
-            "kids_jumping_into_snowdrifts_having___58dcc782-7487-4173-806a-cc56e3379795__1": "A group of diverse children, aged approximately 6-10, joyfully leaping and tumbling into large, fluffy snowdrifts, kicking up powdery snow. They are dressed in colorful winter gear including insulated jackets, snow pants, hats, gloves, and scarves. Their faces are lit with laughter and excitement. The scene is set in a snow-covered landscape with pine trees in the background, under a bright, clear winter sky. Sunlight catches the falling snow, creating a sparkling effect. The image is captured from a slightly low angle to emphasize the children in mid-air and the height of the snowdrifts.",
-            "kids_jumping_into_snowdrifts_having___58dcc782-7487-4173-806a-cc56e3379795__2": "Two children, bundled in colorful winter gear, are captured mid-air as they leap into deep, powdery snowdrifts. The child on the left, wearing a bright red jacket and blue snow pants, has their arms outstretched in excitement, a wide smile on their face. The child on the right, in a yellow jacket and green snow pants, is slightly ahead, their legs bent as they prepare to land. Snow billows around them in soft clouds, kicked up by their playful jumps. The background features a snow-covered landscape with frosted evergreen trees under a slightly overcast sky, suggesting a cold but bright winter day. Sunlight catches the falling snow, creating a shimmering effect. The image is captured from a slightly low angle, emphasizing the height of their jumps and the depth of the snow.",
-            "kids_jumping_into_snowdrifts_style___9cdbc2f8-b0ff-466a-ad21-81b9e909e040__1": "A hand-drawn illustration depicting a whimsical winter scene. Several children, bundled in colorful winter clothing with exaggerated puffy coats and hats, are in various stages of jumping into massive, soft-looking snowdrifts. The lines are slightly uneven, suggesting a human touch, and the colors are vibrant but slightly muted, as if applied with colored pencils or crayons. Snowflakes are scattered across the scene, some large and stylized, others smaller and more numerous. The background shows rolling hills of snow and a few evergreen trees, also rendered in a hand-drawn style with simple, organic shapes. The sky is a pale blue with fluffy white clouds, and the overall impression is playful and joyful.",
-            "kids_jumping_into_snowdrifts_style___9cdbc2f8-b0ff-466a-ad21-81b9e909e040__2": "A whimsical, hand-drawn illustration depicting a group of joyous children leaping into soft, pillowy snowdrifts. The style is reminiscent of a traditional children's book, with visible pencil lines, a slightly textured paper background, and a warm, muted color palette dominated by blues, whites, and earthy tones. The figures are rendered with expressive, simplified features, their limbs splayed in mid-air, and rosy cheeks from the cold. One child wears a bright red hat and scarf, another has a yellow beanie, and a third is in a green coat. Snowflakes are scattered across the scene, some large and intricate, others small dots. Trees with snow-laden branches frame the background, and a quaint, snow-covered wooden cabin with a wisp of smoke curling from its chimney is visible in the distance. The overall mood is playful and nostalgic.",
-            "homemade_bread_crunches_art_style___c344a4ac-556b-4610-a4e2-50643ede4857__1": "A whimsical, high-contrast digital painting in a pop art style. Homemade bread, torn into crunchy, irregular pieces, forms a collage-like arrangement against a vibrant, solid color background. Each bread crumb is outlined in a thick, dark line, giving it a graphic, almost comic book feel. The textures of the crusts and soft interiors are simplified into bold color blocks and stylized patterns, like polka dots or stripes on some pieces, contrasting with smooth, flat colors on others. Shadows are sharp and exaggerated, cast in complementary colors to the background. Some crumbs appear to be \"floating\" slightly, adding to the playful, unconventional nature of the composition. The overall impression is energetic and fun, celebrating the simple beauty of everyday food through an artistic lens.",
-            "homemade_bread_crunches_art_style___c344a4ac-556b-4610-a4e2-50643ede4857__2": "A whimsical, dreamlike illustration in a folk art style. A loaf of homemade, rustic bread with a thick, crunchy crust is depicted as a landscape. The crunches and cracks in the crust form rolling hills and valleys, while sesame and poppy seeds appear as tiny trees and bushes. A small, winding path made of golden-brown crumbs meanders through the landscape, leading to a tiny, cozy cottage nestled in a deep crack in the crust, with a wisp of smoke curling from its chimney. The sky above is a warm, swirling blend of golden-yellow and light orange, reminiscent of a baked interior, with whimsical stars shaped like bread crumbs. The color palette is earthy and warm, dominated by various shades of brown, gold, and cream, with subtle touches of red and green for the cottage and foliage. The texture is rough and tactile, with visible brushstrokes and a handmade feel.",
-            "orange_cat_in_snowy_winter___59b1b81b-953b-4667-9526-ac1828ea3028__1": "An orange tabby cat with thick fur is walking through a serene snowy landscape. The cat has distinctive stripes and a bushy tail, its fur a vibrant contrast against the pristine white snow. Snowflakes gently fall around it, some clinging to its whiskers and fur. The cat is mid-stride, looking forward with bright green eyes. The background features snow-covered pine trees and a soft, overcast winter sky. The ground is covered in a fresh layer of untouched snow, with delicate paw prints trailing behind the cat. The lighting is soft and natural, with diffused daylight.",
-            "cossacks_3_game___2f348b28-1db3-409d-8c3c-e0964a9a5f69__1": "A high-angle, full-city view of a bustling 17th-century European city under siege, rendered in the distinctive top-down isometric style of the \"Cossacks 3\" game. The city features intricate stone buildings, a central marketplace with animated vendor stalls, and fortified walls with watchtowers. Outside the walls, a massive army of historically accurate Cossack cavalry and infantry regiments, dressed in vibrant traditional attire, are engaged in a fierce battle with various European armies (Polish, French, English, and Ottoman). Cannons are firing, leaving trails of smoke, and musket volleys light up the scene. The terrain includes rolling hills, forests, and a winding river with a small wooden bridge. The user interface elements of the \"Cossacks 3\" game are visible, including resource panels (gold, food, wood, stone, iron, coal) at the top, a minimap in the corner, and selected unit information at the bottom. The overall scene is vibrant and detailed, characteristic of a real-time strategy game.",
-            "cossacks_3_game___e4b66e4e-0980-40d4-847d-99d0445b3a36": "Here's an image related to the Cossacks 3 game: ",
-            "generate_a_round_logo_with___fbb3687a-19a7-4315-b617-6de8ea0c32b7": "Here is a logo for your language app: ",
-            "cossacks_3_game___d8beb0fa-5967-4014-a3f7-5b29a624073c": "I can help you with that! Are you looking for a general image from the game Cossacks 3, or something more specific? ",
-            "a_giant_fortress___a11f679e-a445-46e3-aabf-8ca5b25c3990__1": "A colossal fortress, built into the side of a jagged, snow-capped mountain range at dusk. The fortress walls are made of dark, rough-hewn stone, punctuated by numerous turrets and towers with flags bearing a stylized lion rampant. A massive, arched gateway with heavy iron doors stands open at the base, revealing a glimpse of a torchlit courtyard within. Several intricate bridges connect different sections of the fortress, spanning deep ravines. The sky above is a dramatic mix of fiery orange, deep purple, and fading blue, with a few wispy clouds. The mountain peaks are shrouded in mist, giving the fortress an imposing and mysterious silhouette. The foreground features a winding, snow-covered path leading towards the fortress, with a few ancient pine trees clinging to the rocky terrain.",
-            "a_giant_fortress___a11f679e-a445-46e3-aabf-8ca5b25c3990__2": "A massive fortress carved into a towering, jagged mountain range. The fortress is built from dark, weathered stone, with intricate turrets, battlements, and walls that seem to merge seamlessly with the natural rock formations. A deep chasm separates the fortress from the viewer, crossed by a single, narrow stone bridge. Numerous small, arched windows emit a warm, orange glow, suggesting activity within. A powerful waterfall cascades down one side of the mountain, disappearing into the mist-filled chasm below. The sky is a dramatic mix of dark, stormy clouds and a sliver of sunset, casting long, dramatic shadows across the landscape. In the foreground, a few gnarled pine trees cling precariously to the rocky outcrops.",
-            "generated_image": "Here's an image of an orange cat climbing an apricot tree in the garden",
-            "generated_image1": "Here's an image of an orange cat climbing an apricot tree in the garden",
-            "generated_image2": "Here's an image of an orange cat climbing an apricot tree in the garden",
-            "generated_image3": "Here's an image of an orange cat climbing an apricot tree in the garden",
-            "a_giant_city_of_the___815a6c85-34d6-4b25-bf84-19c4d0da8dd1": "Here's a giant city of the future at a rainy night for you: "
+            "toronto_in_22nd_century": {
+                "prompt": "Toronto in 22nd century.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "life_on_moon_with_oceans,___a96b5b8d-6718-404d-b4bb-610f35e5486e": {
+                "prompt": "Life on moon with oceans.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "sunset___8fee8d62-4e20-4d7f-aa08-27099580b342": {
+                "prompt": "Sunset",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "redwall_abbey_during_summer___eeb6d02d-e552-4d87-82f4-b29aa0cdc650": {
+                "prompt": "Redwall abbey during summer",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "a_young_asian_doctor_offering___45b15f8b-8e23-45f6-a8bf-a36315f5dfcb": {
+                "prompt": "A young Asian doctor offering a comforting hand to a patient, symbolizing understanding and empathic care",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "cossacks_3_game___fc961b78-f391-43b4-a7b3-3ec0b87d59f6": {
+                "prompt": "Cossacks 3 game",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "cossacks_3_game___963579c0-9d75-4005-978d-00afbe181b07": {
+                "prompt": "Cossacks 3 game",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "cossacks_3_game___e6235a23-9077-4419-bf56-db7b4f1e028c": {
+                "prompt": "Cossacks 3 game",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "lion_with_rose_boquete___da8d75f3-5d9a-4849-a192-c666c3758de5": {
+                "prompt": "A majestic male lion, with a full, flowing mane in shades of gold and amber, holds a bouquet of vibrant red roses in its mouth. The roses are arranged loosely, with some greenery interspersed, and a few petals drift near its paws. The lion is seated in a sun-drenched, overgrown garden, with soft, diffused light filtering through dappled leaves in the background. Its eyes are a piercing amber, and its expression is gentle yet regal. The image is captured at eye level with a shallow depth of field, rendering the background slightly out of focus to keep the lion and roses as the primary subject.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "kids_jumping_into_snowdrifts_having___352ce528-1d7b-4336-b5ae-0625429d302b": {
+                "prompt": "Joyful children are mid-air, leaping into deep, powdery snowdrifts. The scene is set in a vibrant winter wonderland with snow-covered pine trees in the background under a soft, overcast sky. Two children, bundled in colorful winter gear—one in a bright red jacket and blue snow pants, the other in a yellow jacket and green snow pants—are captured at the peak of their jump, arms outstretched and faces beaming with laughter. Snow is exploding around them from their impact, catching the subtle light. The perspective is slightly low-angle, emphasizing the height of their jump and the depth of the snow.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "kids_jumping_into_snowdrifts_having___58dcc782-7487-4173-806a-cc56e3379795__1": {
+                "prompt": "A group of diverse children, aged approximately 6-10, joyfully leaping and tumbling into large, fluffy snowdrifts, kicking up powdery snow. They are dressed in colorful winter gear including insulated jackets, snow pants, hats, gloves, and scarves. Their faces are lit with laughter and excitement. The scene is set in a snow-covered landscape with pine trees in the background, under a bright, clear winter sky. Sunlight catches the falling snow, creating a sparkling effect. The image is captured from a slightly low angle to emphasize the children in mid-air and the height of the snowdrifts.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "kids_jumping_into_snowdrifts_having___58dcc782-7487-4173-806a-cc56e3379795__2": {
+                "prompt": "Two children, bundled in colorful winter gear, are captured mid-air as they leap into deep, powdery snowdrifts. The child on the left, wearing a bright red jacket and blue snow pants, has their arms outstretched in excitement, a wide smile on their face. The child on the right, in a yellow jacket and green snow pants, is slightly ahead, their legs bent as they prepare to land. Snow billows around them in soft clouds, kicked up by their playful jumps. The background features a snow-covered landscape with frosted evergreen trees under a slightly overcast sky, suggesting a cold but bright winter day. Sunlight catches the falling snow, creating a shimmering effect. The image is captured from a slightly low angle, emphasizing the height of their jumps and the depth of the snow.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "kids_jumping_into_snowdrifts_style___9cdbc2f8-b0ff-466a-ad21-81b9e909e040__1": {
+                "prompt": "A hand-drawn illustration depicting a whimsical winter scene. Several children, bundled in colorful winter clothing with exaggerated puffy coats and hats, are in various stages of jumping into massive, soft-looking snowdrifts. The lines are slightly uneven, suggesting a human touch, and the colors are vibrant but slightly muted, as if applied with colored pencils or crayons. Snowflakes are scattered across the scene, some large and stylized, others smaller and more numerous. The background shows rolling hills of snow and a few evergreen trees, also rendered in a hand-drawn style with simple, organic shapes. The sky is a pale blue with fluffy white clouds, and the overall impression is playful and joyful.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "kids_jumping_into_snowdrifts_style___9cdbc2f8-b0ff-466a-ad21-81b9e909e040__2": {
+                "prompt": "A whimsical, hand-drawn illustration depicting a group of joyous children leaping into soft, pillowy snowdrifts. The style is reminiscent of a traditional children's book, with visible pencil lines, a slightly textured paper background, and a warm, muted color palette dominated by blues, whites, and earthy tones. The figures are rendered with expressive, simplified features, their limbs splayed in mid-air, and rosy cheeks from the cold. One child wears a bright red hat and scarf, another has a yellow beanie, and a third is in a green coat. Snowflakes are scattered across the scene, some large and intricate, others small dots. Trees with snow-laden branches frame the background, and a quaint, snow-covered wooden cabin with a wisp of smoke curling from its chimney is visible in the distance. The overall mood is playful and nostalgic.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "homemade_bread_crunches_art_style___c344a4ac-556b-4610-a4e2-50643ede4857__1": {
+                "prompt": "A whimsical, high-contrast digital painting in a pop art style. Homemade bread, torn into crunchy, irregular pieces, forms a collage-like arrangement against a vibrant, solid color background. Each bread crumb is outlined in a thick, dark line, giving it a graphic, almost comic book feel. The textures of the crusts and soft interiors are simplified into bold color blocks and stylized patterns, like polka dots or stripes on some pieces, contrasting with smooth, flat colors on others. Shadows are sharp and exaggerated, cast in complementary colors to the background. Some crumbs appear to be \"floating\" slightly, adding to the playful, unconventional nature of the composition. The overall impression is energetic and fun, celebrating the simple beauty of everyday food through an artistic lens.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "homemade_bread_crunches_art_style___c344a4ac-556b-4610-a4e2-50643ede4857__2": {
+                "prompt": "A whimsical, dreamlike illustration in a folk art style. A loaf of homemade, rustic bread with a thick, crunchy crust is depicted as a landscape. The crunches and cracks in the crust form rolling hills and valleys, while sesame and poppy seeds appear as tiny trees and bushes. A small, winding path made of golden-brown crumbs meanders through the landscape, leading to a tiny, cozy cottage nestled in a deep crack in the crust, with a wisp of smoke curling from its chimney. The sky above is a warm, swirling blend of golden-yellow and light orange, reminiscent of a baked interior, with whimsical stars shaped like bread crumbs. The color palette is earthy and warm, dominated by various shades of brown, gold, and cream, with subtle touches of red and green for the cottage and foliage. The texture is rough and tactile, with visible brushstrokes and a handmade feel.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "orange_cat_in_snowy_winter___59b1b81b-953b-4667-9526-ac1828ea3028__1": {
+                "prompt": "An orange tabby cat with thick fur is walking through a serene snowy landscape. The cat has distinctive stripes and a bushy tail, its fur a vibrant contrast against the pristine white snow. Snowflakes gently fall around it, some clinging to its whiskers and fur. The cat is mid-stride, looking forward with bright green eyes. The background features snow-covered pine trees and a soft, overcast winter sky. The ground is covered in a fresh layer of untouched snow, with delicate paw prints trailing behind the cat. The lighting is soft and natural, with diffused daylight.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "cossacks_3_game___2f348b28-1db3-409d-8c3c-e0964a9a5f69__1": {
+                "prompt": "A high-angle, full-city view of a bustling 17th-century European city under siege, rendered in the distinctive top-down isometric style of the \"Cossacks 3\" game. The city features intricate stone buildings, a central marketplace with animated vendor stalls, and fortified walls with watchtowers. Outside the walls, a massive army of historically accurate Cossack cavalry and infantry regiments, dressed in vibrant traditional attire, are engaged in a fierce battle with various European armies (Polish, French, English, and Ottoman). Cannons are firing, leaving trails of smoke, and musket volleys light up the scene. The terrain includes rolling hills, forests, and a winding river with a small wooden bridge. The user interface elements of the \"Cossacks 3\" game are visible, including resource panels (gold, food, wood, stone, iron, coal) at the top, a minimap in the corner, and selected unit information at the bottom. The overall scene is vibrant and detailed, characteristic of a real-time strategy game.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "cossacks_3_game___e4b66e4e-0980-40d4-847d-99d0445b3a36": {
+                "prompt": "Here's an image related to the Cossacks 3 game: ",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "generate_a_round_logo_with___fbb3687a-19a7-4315-b617-6de8ea0c32b7": {
+                "prompt": "Here is a logo for your language app: ",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "cossacks_3_game___d8beb0fa-5967-4014-a3f7-5b29a624073c": {
+                "prompt": "I can help you with that! Are you looking for a general image from the game Cossacks 3, or something more specific? ",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "a_giant_fortress___a11f679e-a445-46e3-aabf-8ca5b25c3990__1": {
+                "prompt": "A colossal fortress, built into the side of a jagged, snow-capped mountain range at dusk. The fortress walls are made of dark, rough-hewn stone, punctuated by numerous turrets and towers with flags bearing a stylized lion rampant. A massive, arched gateway with heavy iron doors stands open at the base, revealing a glimpse of a torchlit courtyard within. Several intricate bridges connect different sections of the fortress, spanning deep ravines. The sky above is a dramatic mix of fiery orange, deep purple, and fading blue, with a few wispy clouds. The mountain peaks are shrouded in mist, giving the fortress an imposing and mysterious silhouette. The foreground features a winding, snow-covered path leading towards the fortress, with a few ancient pine trees clinging to the rocky terrain.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "a_giant_fortress___a11f679e-a445-46e3-aabf-8ca5b25c3990__2": {
+                "prompt": "A massive fortress carved into a towering, jagged mountain range. The fortress is built from dark, weathered stone, with intricate turrets, battlements, and walls that seem to merge seamlessly with the natural rock formations. A deep chasm separates the fortress from the viewer, crossed by a single, narrow stone bridge. Numerous small, arched windows emit a warm, orange glow, suggesting activity within. A powerful waterfall cascades down one side of the mountain, disappearing into the mist-filled chasm below. The sky is a dramatic mix of dark, stormy clouds and a sliver of sunset, casting long, dramatic shadows across the landscape. In the foreground, a few gnarled pine trees cling precariously to the rocky outcrops.",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "generated_image": {
+                "prompt": "Here's an image of an orange cat climbing an apricot tree in the garden",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "generated_image1": {
+                "prompt": "Here's an image of an orange cat climbing an apricot tree in the garden",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "generated_image2": {
+                "prompt": "Here's an image of an orange cat climbing an apricot tree in the garden",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "generated_image3": {
+                "prompt": "Here's an image of an orange cat climbing an apricot tree in the garden",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "a_giant_city_of_the___815a6c85-34d6-4b25-bf84-19c4d0da8dd1": {
+                "prompt": "Here's a giant city of the future at a rainy night for you: ",
+                "aiModel": null,
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            },
+            "dancing_chicken___988806bd-b256-4eb1-850e-347bc6a7f609": {
+                "prompt": "Dancing chicken",
+                "aiModel": "gemini-3-pro-image-preview",
+                "imageType": "generated-images",
+                "ai": "geminiai"
+            }
         },
         "edited-images": {
-            "add_more_skyscrapers___2768760f-63e1-4b37-b3a8-1ead07c96874": "add more skyscrapers",
-            "add_animals___1b5fb785-4cd8-4628-bd41-8b5f6614062b": "Add animals",
-            "add_potatoes___ba321d7d-7303-41a9-ac37-f86a320bb205__2": "add potatoes",
-            "for_the_second_image_add___a9702dc0-38e2-44b8-8549-66f8b1b57602": "for the second image add more buildings like the one shown in the first image. respect the style and scale",
-            "add_sailing_boats_on_the___fe76f8d0-8bd7-4426-ac6d-6ed27e4dc55e__1": "add sailing boats on the water",
-            "add_sailing_boats_on_the___fe76f8d0-8bd7-4426-ac6d-6ed27e4dc55e__2": "add sailing boats on the water",
-            "add_sailing_boats_on_the___76377891-7159-4fe8-9762-6f36c46f1838": "Sure, here are some sailing boats on the water: ",
-            "change_style_of_the_image___b2ce1ce6-e139-4507-8cb2-c04c4813c7a7": "Here's the image in a hand-drawn and colorful style: "
+            "add_more_skyscrapers___2768760f-63e1-4b37-b3a8-1ead07c96874": {
+                "prompt": "add more skyscrapers",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "geminiai"
+            },
+            "add_animals___1b5fb785-4cd8-4628-bd41-8b5f6614062b": {
+                "prompt": "Add animals",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "geminiai"
+            },
+            "add_potatoes___ba321d7d-7303-41a9-ac37-f86a320bb205__2": {
+                "prompt": "add potatoes",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "geminiai"
+            },
+            "for_the_second_image_add___a9702dc0-38e2-44b8-8549-66f8b1b57602": {
+                "prompt": "for the second image add more buildings like the one shown in the first image. respect the style and scale",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "geminiai"
+            },
+            "add_sailing_boats_on_the___fe76f8d0-8bd7-4426-ac6d-6ed27e4dc55e__1": {
+                "prompt": "add sailing boats on the water",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "geminiai"
+            },
+            "add_sailing_boats_on_the___fe76f8d0-8bd7-4426-ac6d-6ed27e4dc55e__2": {
+                "prompt": "add sailing boats on the water",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "geminiai"
+            },
+            "add_sailing_boats_on_the___76377891-7159-4fe8-9762-6f36c46f1838": {
+                "prompt": "Sure, here are some sailing boats on the water: ",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "geminiai"
+            },
+            "change_style_of_the_image___b2ce1ce6-e139-4507-8cb2-c04c4813c7a7": {
+                "prompt": "Here's the image in a hand-drawn and colorful style: ",
+                "aiModel": null,
+                "imageType": "edited-images",
+                "ai": "geminiai"
+            }
         },
         "variation-images": {},
         "generated-videos": {}
