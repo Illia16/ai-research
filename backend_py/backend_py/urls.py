@@ -24,5 +24,6 @@ urlpatterns = [
     path("api/generate-image", views.generateImage, name="generateImage"),
     path("api/edit-image", views.editImage, name="editImage"),
     path("api/get_saved_media", views.get_saved_media, name="get_saved_media"),
+    path("api/generate-video", views.generateVideo, name="generateVideo"),
     path("", views.helloworld, name="helloworld"),
 ]

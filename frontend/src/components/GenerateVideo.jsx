@@ -13,7 +13,7 @@ const GenerateVideo = () => {
     const [seconds, setSeconds] = useState(4);
     const [videoSize, setVideoSize] = useState("1280x720");
 
-    // openai: (fe states)
+    // openai: (front-end states)
     const [videoStatus, setVideoStatus] = useState(null);
     const [videoProgress, setVideoProgress] = useState(0);
     const [isGenerating, setIsGenerating] = useState(false);
@@ -25,6 +25,11 @@ const GenerateVideo = () => {
     const [allVideos, setAllVideos] = useState(null);
 
     const pollingIntervalRef = useRef(null);
+
+    // Geminiai
+    const [duration_seconds, set_duration_seconds] = useState(4);
+    const [negative_prompt, set_negative_prompt] = useState("");
+    const [number_of_videos, set_number_of_videos] = useState(1);
 
     // Cleanup polling on unmount
     useEffect(() => {
@@ -179,6 +184,44 @@ const GenerateVideo = () => {
         } catch (error) {
             console.log("error", error);
             setError("Error generating video: " + error.message);
+            setIsGenerating(false);
+        }
+    };
+
+    const generateGeminiai = async () => {
+        if (isGenerating || !videoGenPrompt || !aiModel) return;
+        setIsGenerating(true);
+        setError(null);
+
+        const formData = new FormData();
+        if (imageReference && imageReference.length > 0) {
+            Array.from(imageReference).forEach((file) => {
+                formData.append("file", file);
+            });
+        }
+
+        formData.append("prompt", videoGenPrompt);
+        negative_prompt && formData.append("negative_prompt", negative_prompt);
+        formData.append("modelName", aiModel);
+        formData.append("number_of_videos", number_of_videos);
+        formData.append("duration_seconds", duration_seconds);
+
+        try {
+            const response = await fetch("http://127.0.0.1:4010/api/generate-video", {
+                method: "POST",
+                body: formData,
+            });
+            const data = await response.json();
+
+            if (!data.success) {
+                setError(data.details);
+            } else {
+                console.log("data geminia ai:", data);
+            }
+        } catch (error) {
+            console.log("error", error);
+            setError(error.details);
+        } finally {
             setIsGenerating(false);
         }
     };
@@ -388,6 +431,79 @@ const GenerateVideo = () => {
                             <p>Size: {videoData.size}</p>
                             <p>Duration: {videoData.seconds} seconds</p>
                             <p>Model: {videoData.model}</p>
+                        </div>
+                    )}
+                </>
+            )}
+
+            {ai === "geminiai" && (
+                <>
+                    <div className="form_el">
+                        <label>
+                            <textarea
+                                id="negative_prompt"
+                                name="negative_prompt"
+                                rows={5}
+                                cols={100}
+                                value={negative_prompt}
+                                placeholder="Enter negative prompt (what is not to be included)"
+                                onChange={(e) => set_negative_prompt(e.target.value)}></textarea>
+                        </label>
+                    </div>
+                    <div className="form_el">
+                        <label>
+                            <select
+                                name="aiModel"
+                                id="aiModel"
+                                value={aiModel}
+                                onChange={(e) => setAiModel(e.target.value)}>
+                                <option value="">Select model</option>
+                                <option value="veo-3.1-generate-preview">veo-3.1-generate-preview (default)</option>
+                                <option value="veo-3.1-fast-generate-preview">veo-3.1-fast-generate-preview</option>
+                                <option value="veo-3.0-generate-001">veo-3.0-generate-001</option>
+                                <option value="veo-3.0-fast-generate-001">veo-3.0-fast-generate-001</option>
+                                <option value="veo-2.0-generate-001">veo-2.0-generate-001</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div className="form_el">
+                        <label>
+                            Duration:{" "}
+                            <select
+                                name="duration_seconds"
+                                id="duration_seconds"
+                                value={duration_seconds}
+                                onChange={(e) => set_duration_seconds(e.target.value)}>
+                                <option value="">Select seconds</option>
+                                <option value="4">4 (default)</option>
+                                <option value="6">6</option>
+                                <option value="8">8</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div className="form_el">
+                        <label>
+                            Number of videos:{" "}
+                            <select
+                                name="number_of_videos"
+                                id="number_of_videos"
+                                value={number_of_videos}
+                                onChange={(e) => set_number_of_videos(e.target.value)}>
+                                <option value="">Select number of videos</option>
+                                <option value="1">1 (default)</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div>
+                        <button onClick={() => generateGeminiai()} className="btn-primary" disabled={isGenerating}>
+                            {isGenerating ? "Generating..." : "Generate Video with Geminiai"}
+                        </button>
+                    </div>
+                    {error && (
+                        <div id="error-msg" className="form_el" style={{ marginTop: "20px", color: "#ff4444" }}>
+                            <p>
+                                <strong>Error:</strong> {error}
+                            </p>
                         </div>
                     )}
                 </>

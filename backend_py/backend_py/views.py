@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import base64
 import json
 import uuid
+import time
 from pathlib import Path
 import argparse
 import os
@@ -11,10 +12,6 @@ from datetime import datetime
 from django.conf import settings
 
 # GeminiAI
-# import vertexai
-# from vertexai.generative_models import GenerativeModel, Part
-# from vertexai.preview.vision_models import Image, ImageGenerationModel
-
 from google import genai
 from google.genai.types import HttpOptions, Part, GenerateContentConfig, RawReferenceImage
 from google.genai import types
@@ -302,3 +299,107 @@ def get_saved_media(request):
         imagePromts = json.load(file)
 
     return JsonResponse({'success': True, 'imageFiles': imageFiles, 'imagePromts': imagePromts, 'ai': 'geminiai'})
+
+@csrf_exempt
+def generateVideo(request):
+    uniqueId = str(uuid.uuid4())
+
+    # image_bytes = image_file.read()
+    # image_file = request.FILES['file']
+    files = request.FILES.getlist('file')
+    image_bytes = files[0].read()
+    image_mime_type = files[0].content_type or 'image/png'
+    # video_file = request.FILES['video']
+    # video_bytes=video_file.read()
+    text = request.POST.get('prompt')
+    negative_prompt = request.POST.get('negative_prompt', None)
+    modelName = request.POST.get('modelName')
+    # number_of_videos = request.POST.get('number_of_videos', 1)
+    duration_seconds = request.POST.get('duration_seconds', 4) # "4", "6", "8".
+
+    # return JsonResponse({'success': True, 'message': {'image_bytes': len(image_bytes), 'text': text, 'negative_prompt': negative_prompt, 'modelName': modelName, 'duration_seconds': duration_seconds}, 'ai': 'geminiai'})
+
+    client = genai.Client()
+
+    try:
+        operation = client.models.generate_videos(
+            prompt=text,
+            model=modelName,
+            image=types.Image(image_bytes=image_bytes, mime_type=image_mime_type),
+            # source=types.GenerateVideosSource(
+            #     prompt=text,
+            #     image=types.Image(image_bytes=image_bytes, mime_type=image_mime_type),
+            #     # video=
+            # ),
+            config=types.GenerateVideosConfig(
+                # number_of_videos=number_of_videos,
+                duration_seconds=duration_seconds,
+                # person_generation='allow_adult'
+                negative_prompt=negative_prompt
+                # enhance_prompt=enhance_prompt # True
+                # generate_audio=generate_audio # True
+                # last_frame=fileLastFrame_bytes
+                # reference_images: Optional[list[VideoGenerationReferenceImage]] = Field(
+                #     default=None,
+                #     description="""The images to use as the references to generate the videos.
+                #     If this field is provided, the text prompt field must also be provided.
+                #     The image, video, or last_frame field are not supported. Each image must
+                #     be associated with a type. Veo 2 supports up to 3 asset images *or* 1
+                #     style image.""",
+                # )
+            ),
+        )
+
+    except Exception as e:
+        return JsonResponse(
+            {
+                "success": False,
+                "error": "Error generating video",
+                "details": str(e),
+            },
+            status=500
+        )
+
+    print(f'operation init:', operation)
+    # Poll the operation status until the video is ready.
+    while not operation.done:
+        print("Waiting for video generation to complete...")
+        print(f'operation while:', operation)
+        time.sleep(5)
+        operation = client.operations.get(operation)
+
+    if operation.response and operation.response.rai_media_filtered_reasons:
+        return JsonResponse(
+            {
+                "success": False,
+                "error": "Error generating video",
+                "details": str(operation.response.rai_media_filtered_reasons),
+            },
+            status=400
+        )
+
+    dirrProject = Path(settings.BASE_DIR_PROJECT)
+    output_dir = dirrProject / "frontend" / "public" / "videos" / "geminiai"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    print(f'operation done:', operation)
+    video = operation.response.generated_videos[0] # get the first one
+    fileName = (
+        '_'.join(text.split(" ")[:5])
+        .replace(r"[^\w\s]+", "")
+        .lower()
+    )
+    fileName += f"___{uniqueId}"
+    saved_paths = []
+
+    video.video.save(f"{output_dir / fileName}.mp4")
+    saved_paths.append(f"/videos/geminiai/{fileName}.mp4")
+    # Save prompt when video is actually saved
+    save_prompt(
+        fileName,
+        text,
+        "geminiai",
+        "generated-videos",
+    )
+
+    return JsonResponse({'success': True, 'message': saved_paths, 'ai': 'geminiai'})

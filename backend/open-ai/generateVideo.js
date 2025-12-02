@@ -41,7 +41,7 @@ async function generateVideo({ videoGenPrompt, aiModel, imageReference, seconds,
 
         const data = await res.json();
 
-        // Save video data if there's not error
+        // Save video data if there's no error
         if (!data?.error?.message) {
             helper.savePrompt(data.id, data, "openai", "generated-videos");
         }
