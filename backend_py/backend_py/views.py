@@ -383,7 +383,7 @@ def generateVideo(request):
     output_dir.mkdir(parents=True, exist_ok=True)
 
     print(f'operation done:', operation)
-    video = operation.response.generated_videos[0] # get the first one
+    # video = operation.response.generated_videos[0] # get the first one # tbd: not working?
     fileName = (
         '_'.join(text.split(" ")[:5])
         .replace(r"[^\w\s]+", "")
@@ -392,14 +392,24 @@ def generateVideo(request):
     fileName += f"___{uniqueId}"
     saved_paths = []
 
-    video.video.save(f"{output_dir / fileName}.mp4")
-    saved_paths.append(f"/videos/geminiai/{fileName}.mp4")
-    # Save prompt when video is actually saved
-    save_prompt(
-        fileName,
-        text,
-        "geminiai",
-        "generated-videos",
-    )
+    # video.video.save(f"{output_dir / fileName}.mp4")
+    for i, video in enumerate(operation.response.generated_videos, start=1):
+        video_uri = video.video.uri
+        print(f'Downloading video {i} from {video_uri}...')
+        import urllib.request
+        with urllib.request.urlopen(f"{video_uri}&key={GEMINI_API_KEY}") as response:
+            video_data = response.read()
+            filePath = output_dir / f"{fileName}__{i}.mp4"
+            with open(filePath, "wb") as video_file:
+                video_file.write(video_data)
+            print(f"Saved video {i} to {filePath}")
+            saved_paths.append(f"/videos/geminiai/{fileName}__{i}.mp4")
+            # Save prompt when video is actually saved
+            save_prompt(
+                fileName + f"__{i}",
+                text,
+                "geminiai",
+                "generated-videos",
+            )
 
     return JsonResponse({'success': True, 'message': saved_paths, 'ai': 'geminiai'})

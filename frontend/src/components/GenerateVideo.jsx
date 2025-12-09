@@ -475,7 +475,11 @@ const GenerateVideo = () => {
                                 value={duration_seconds}
                                 onChange={(e) => set_duration_seconds(e.target.value)}>
                                 <option value="">Select seconds</option>
-                                <option value="4">4 (default)</option>
+                                {["veo-2.0-generate-001"].includes(aiModel) ? (
+                                    <option value="5">5 (default)</option>
+                                ) : (
+                                    <option value="4">4 (default)</option>
+                                )}
                                 <option value="6">6</option>
                                 <option value="8">8</option>
                             </select>
